@@ -1,0 +1,6 @@
+export * from './ClassicGame'
+export * from './CriesGame'
+export * from './Header'
+export * from './SilouetteGame'
+export * from './PokemonRow'
+export * from './SearchBar'
