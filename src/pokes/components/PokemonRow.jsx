@@ -5,12 +5,14 @@ import {
 	getEvolutionStage,
 } from "../../helpers";
 import { useFetch } from "../../hooks";
+import "./PokemonRow.css";
 
 export const PokemonRow = ({ pokemon }) => {
 	const {
 		id,
 		name,
 		sprites: { front_default },
+		abilities,
 		types,
 		habitat,
 		main_color,
@@ -22,72 +24,130 @@ export const PokemonRow = ({ pokemon }) => {
 	} = pokemon;
 
 	const url = `https://poke-backend-tvv2.onrender.com/pokemons/${id}/evolution`;
-
 	const { data, isLoading, hasError } = useFetch(url);
-
 	const [evoInfo, setEvoInfo] = useState({ stage: "1", trigger: "None" });
 
 	const highest_stat = getHighestStat(stats);
 	const gen = getGeneration(generation);
-
 	const type1 = types[0] || "None";
 	const type2 = types[1] || "None";
 
 	useEffect(() => {
 		if (!data) return;
-
 		const stageInfo = getEvolutionStage(data, name);
 		setEvoInfo(stageInfo);
 	}, [data, name]);
 
 	return (
-		<>
+		<tr className="text-center border-gray-200">
 			{hasError ? (
-				<p>Error al cargar la información de evolución.</p>
+				<td colSpan="13" className="py-1 text-red-500">
+					Error al cargar la información
+				</td>
 			) : isLoading ? (
-				<div className="flex justify-center">
-					<img src="/pokeball.svg" className="animate-spin" width="64" height="64"/>
-				</div>
+				<td colSpan="13" className="py-1">
+					<img
+						src="/pokeball.svg"
+						className="animate-spin mx-auto"
+						width="32"
+						height="32"
+					/>
+				</td>
 			) : (
-				<div className="flex flex-row gap-x-1 capitalize justify-center">
-					<div>
-						<img src={front_default} />
-					</div>
-					<div>
-						<p>{type1} </p>
-					</div>
-					<div>
-						<p>{type2}</p>
-					</div>
-					<div>
-						<p>{main_color}</p>
-					</div>
-					<div>
-						<p>{evoInfo.stage}</p>
-					</div>
-					<div>
-						<p>{evoInfo.trigger}</p>
-					</div>
-					<div>
-						<p>{highest_stat}</p>
-					</div>
-					<div>
-						<p>{gen}</p>
-					</div>
-					<div>
-						<p>{capture_rate}</p>
-					</div>
-					<div>
-						<p>{habitat}</p>
-					</div>
-					<div>
-						<p className="normal-case">{height % 10} kg</p>
-					</div>
-					<div>
-						<p className="normal-case">{weight % 10} m</p>
-					</div>
-				</div>
+				<>
+					<td className="py-1">
+						<div className="w-full flex justify-center">
+							<div className="flex justify-center items-center attribute-box border-2 border-gray-200  rounded-lg">
+								<img src={front_default} alt={name}/>
+							</div>
+						</div>
+					</td>
+					<td className="py-1">
+						<div className="w-full flex justify-center">
+							<div className="flex justify-center items-center attribute-box border-2 border-gray-200  rounded-lg">
+								<p className="auto-fit">{type1} </p>
+							</div>
+						</div>
+					</td>
+					<td className="py-1">
+						<div className="w-full flex justify-center">
+							<div className="flex justify-center items-center attribute-box border-2 border-gray-200  rounded-lg">
+								<p className="auto-fit">{type2}</p>
+							</div>
+						</div>
+					</td>
+					<td className="py-1">
+						<div className="w-full flex justify-center">
+							<div className="flex justify-center items-center attribute-box border-2 border-gray-200  rounded-lg">
+								<p className="auto-fit">{main_color}</p>
+							</div>
+						</div>
+					</td>
+					<td className="py-1">
+						<div className="w-full flex justify-center">
+							<div className="flex justify-center items-center attribute-box border-2 border-gray-200  rounded-lg">
+								<p className="auto-fit">{evoInfo.stage}</p>
+							</div>
+						</div>
+					</td>
+					<td className="py-1">
+						<div className="w-full flex justify-center">
+							<div className="flex justify-center items-center attribute-box border-2 border-gray-200  rounded-lg">
+								<p className="auto-fit">{evoInfo.trigger}</p>
+							</div>
+						</div>
+					</td>
+					<td className="py-1">
+						<div className="w-full flex justify-center">
+							<div className="flex justify-center items-center attribute-box border-2 border-gray-200  rounded-lg">
+								<p className="auto-fit">{abilities[0]}</p>
+							</div>
+						</div>
+					</td>
+					<td className="py-1">
+						<div className="w-full flex justify-center">
+							<div className="flex justify-center items-center attribute-box border-2 border-gray-200  rounded-lg">
+								<p className="auto-fit">{highest_stat}</p>
+							</div>
+						</div>
+					</td>
+					<td className="py-1">
+						<div className="w-full flex justify-center">
+							<div className="flex justify-center items-center attribute-box border-2 border-gray-200  rounded-lg">
+								<p className="auto-fit">{gen}</p>
+							</div>
+						</div>
+					</td>
+					<td className="py-1">
+						<div className="w-full flex justify-center">
+							<div className="flex justify-center items-center attribute-box border-2 border-gray-200  rounded-lg">
+								<p className="auto-fit">{capture_rate}</p>
+							</div>
+						</div>
+					</td>
+					<td className="py-1">
+						<div className="w-full flex justify-center">
+							<div className="flex justify-center items-center attribute-box border-2 border-gray-200  rounded-lg">
+								<p className="auto-fit">{habitat}</p>
+							</div>
+						</div>
+					</td>
+					<td className="normal-case py-1">
+						<div className="w-full flex justify-center">
+							<div className="flex justify-center items-center attribute-box border-2 border-gray-200  rounded-lg">
+								<p className="normal-case auto-fit">{height % 10} kg</p>
+							</div>
+						</div>
+					</td>
+					<td className="normal-case py-1">
+						<div className="w-full flex justify-center">
+							<div className="flex justify-center items-center attribute-box border-2 border-gray-200  rounded-lg">
+								<p className="normal-case auto-fit">{weight % 10} m</p>
+							</div>
+						</div>
+					</td>
+				</>
 			)}
-		</>
+		</tr>
 	);
 };

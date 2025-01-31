@@ -1,1 +1,20 @@
 @import "tailwindcss";
+
+@font-face {
+	font-family: "PokeFont";
+	src: url("/fonts/PokemonGb-RAeo.ttf") format("truetype");
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "PokeFont";
+	src: url("/fonts/PokemonGb-RAeo.ttf") format("truetype");
+	font-weight: bold;
+	font-style: normal;
+}
+
+body {
+	font-family: "PokeFont", sans-serif;
+	letter-spacing: -0.5px; 
+}

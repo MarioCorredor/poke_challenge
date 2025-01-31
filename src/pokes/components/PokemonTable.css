@@ -1,0 +1,10 @@
+table {
+	font-size: 8px;
+}
+
+.auto-fit {
+	font-size: 100%;
+	line-height: 1.5;
+	overflow: hidden;
+	width: fit-content;
+}
