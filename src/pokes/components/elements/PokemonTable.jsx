@@ -1,8 +1,9 @@
 import React from "react";
-import { PokemonRow } from "./";
+import { PokemonRow } from "..";
 import "./PokemonTable.css";
 
 export const PokemonTable = ({ pokemons = [] }) => {
+
 	return (
 		<table className="table-fixed border-collapse w-full capitalize">
 			<thead>

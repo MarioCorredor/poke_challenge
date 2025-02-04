@@ -1,3 +1,6 @@
 export * from './getGeneration'
 export * from './getHighestStat'
 export * from './getEvolutionStage'
+export * from './getAllPokemonNames'
+export * from './getPokemonImage'
+export * from './getPokemon'

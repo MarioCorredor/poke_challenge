@@ -3,7 +3,7 @@ table {
 }
 
 .auto-fit {
-	font-size: 100%;
+	font-size: clamp(5px, 8px, 8px);
 	line-height: 1.5;
 	overflow: hidden;
 	width: fit-content;

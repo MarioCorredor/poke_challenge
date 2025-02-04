@@ -1,0 +1,30 @@
+.audio-player {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	background: #222;
+	padding: 10px;
+	border-radius: 10px;
+	width: fit-content;
+
+	.play-btn {
+		background: #444;
+		color: white;
+		border: none;
+		padding: 8px 15px;
+		cursor: pointer;
+		border-radius: 5px;
+		font-size: 14px;
+	}
+
+	.volume-control {
+		display: flex;
+		align-items: center;
+		gap: 5px;
+		color: white;
+
+		input {
+			width: 80px;
+		}
+	}
+}

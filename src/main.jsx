@@ -5,9 +5,9 @@ import { PokeChallengesApp } from "./PokeChallengesApp.jsx";
 import { BrowserRouter } from "react-router";
 
 createRoot(document.getElementById("root")).render(
-	<StrictMode>
+	// <StrictMode>
 		<BrowserRouter>
 			<PokeChallengesApp />
 		</BrowserRouter>
-	</StrictMode>
+	/*{ </StrictMode> }*/
 );
