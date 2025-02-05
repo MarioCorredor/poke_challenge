@@ -26,7 +26,7 @@ export const PokemonTable = ({ pokemons = [] }) => {
 			<tbody className="space-y-2">
 				{pokemons.map((pokemon) => (
 					<PokemonRow key={pokemon.id} pokemon={pokemon} />
-				))}
+				)).reverse()}
 			</tbody>
 		</table>
 	);
