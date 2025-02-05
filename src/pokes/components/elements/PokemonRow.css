@@ -1,4 +1,19 @@
 .attribute-box {
 	height: 50px;
 	width: 50px;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+.arrow-up {
+	background-image: url("../../../assets/arrow-up.svg");
+}
+
+.arrow-down {
+	background-image: url("../../../assets/arrow-down.svg");
+}
+
+svg {
+	color: darkred;
 }

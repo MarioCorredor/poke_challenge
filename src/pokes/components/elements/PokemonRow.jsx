@@ -3,6 +3,8 @@ import {
 	getHighestStat,
 	getGeneration,
 	getEvolutionStage,
+	comparePokemonAttributes,
+	getBgColor,
 } from "../../../helpers";
 import { useFetch } from "../../../hooks";
 import "./PokemonRow.css";
@@ -26,9 +28,10 @@ export const PokemonRow = ({ pokemon }) => {
 
 	const url = `https://poke-backend-tvv2.onrender.com/pokemons/${id}/evolution`;
 	const { data, isLoading, hasError } = useFetch(url);
-	const [evoInfo, setEvoInfo] = useState({ stage: "1", trigger: "None" });
+	const [evoInfo, setEvoInfo] = useState({ stage: "", trigger: "None" });
 	const { dailyPokemons } = usePokemon();
 	const [dailyPokemon, setDailyPokemon] = useState({});
+	const [comparisonResults, setComparisonResults] = useState({});
 
 	const highest_stat = getHighestStat(stats);
 	const gen = getGeneration(generation);
@@ -45,6 +48,17 @@ export const PokemonRow = ({ pokemon }) => {
 		if (dailyPokemons.length < 1) return;
 		setDailyPokemon(dailyPokemons[0]);
 	}, [dailyPokemons]);
+
+	useEffect(() => {
+		if (dailyPokemon && pokemon) {
+			// Guardamos el resultado de las comparaciones en un estado
+			const comparisonResult = comparePokemonAttributes(
+				dailyPokemon,
+				pokemon
+			);
+			setComparisonResults(comparisonResult);
+		}
+	}, [dailyPokemon, pokemon]);
 
 	const adjustFontSize = (element) => {
 		const textLength = element.textContent.trim().length;
@@ -98,35 +112,51 @@ export const PokemonRow = ({ pokemon }) => {
 				<>
 					<td className="py-1">
 						<div className="w-full flex justify-center">
-							<div className="flex justify-center items-center attribute-box border-2 border-gray-200  rounded-lg">
+							<div className="flex justify-center items-center attribute-box border-2 border-gray-200 rounded-lg animate__animated animate__zoomIn">
 								<img src={front_default} alt={name} />
 							</div>
 						</div>
 					</td>
 					<td className="py-1">
 						<div className="w-full flex justify-center">
-							<div className="flex justify-center items-center attribute-box border-2 border-gray-200  rounded-lg">
+							<div
+								className={`flex justify-center items-center attribute-box border-2 border-gray-200 rounded-lg animate__animated animate__zoomIn ${getBgColor(
+									"type1",
+									comparisonResults
+								)}`}>
 								<p className="responsive-text">{type1}</p>
 							</div>
 						</div>
 					</td>
 					<td className="py-1">
 						<div className="w-full flex justify-center">
-							<div className="flex justify-center items-center attribute-box border-2 border-gray-200  rounded-lg">
+							<div
+								className={`flex justify-center items-center attribute-box border-2 border-gray-200 rounded-lg animate__animated animate__zoomIn ${getBgColor(
+									"type2",
+									comparisonResults
+								)}`}>
 								<p className="responsive-text">{type2}</p>
 							</div>
 						</div>
 					</td>
 					<td className="py-1">
 						<div className="w-full flex justify-center">
-							<div className="flex justify-center items-center attribute-box border-2 border-gray-200  rounded-lg">
+							<div
+								className={`flex justify-center items-center attribute-box border-2 border-gray-200 rounded-lg animate__animated animate__zoomIn ${getBgColor(
+									"mainColor",
+									comparisonResults
+								)}`}>
 								<p className="responsive-text">{main_color}</p>
 							</div>
 						</div>
 					</td>
 					<td className="py-1">
 						<div className="w-full flex justify-center">
-							<div className="flex justify-center items-center attribute-box border-2 border-gray-200  rounded-lg">
+							<div
+								className={`flex justify-center items-center attribute-box border-2 border-gray-200 rounded-lg animate__animated animate__zoomIn ${getBgColor(
+									"evolutionStage",
+									comparisonResults
+								)}`}>
 								<p className="responsive-text">
 									{evoInfo.stage}
 								</p>
@@ -135,7 +165,11 @@ export const PokemonRow = ({ pokemon }) => {
 					</td>
 					<td className="py-1">
 						<div className="w-full flex justify-center">
-							<div className="flex justify-center items-center attribute-box border-2 border-gray-200  rounded-lg">
+							<div
+								className={`flex justify-center items-center attribute-box border-2 border-gray-200 rounded-lg animate__animated animate__zoomIn ${getBgColor(
+									"evolutionTrigger",
+									comparisonResults
+								)}`}>
 								<p className="responsive-text">
 									{evoInfo.trigger}
 								</p>
@@ -144,7 +178,11 @@ export const PokemonRow = ({ pokemon }) => {
 					</td>
 					<td className="py-1">
 						<div className="w-full flex justify-center">
-							<div className="flex justify-center items-center attribute-box border-2 border-gray-200  rounded-lg">
+							<div
+								className={`flex justify-center items-center attribute-box border-2 border-gray-200 rounded-lg animate__animated animate__zoomIn ${getBgColor(
+									"ability",
+									comparisonResults
+								)}`}>
 								<p className="responsive-text">
 									{abilities[0]}
 								</p>
@@ -153,7 +191,11 @@ export const PokemonRow = ({ pokemon }) => {
 					</td>
 					<td className="py-1">
 						<div className="w-full flex justify-center">
-							<div className="flex justify-center items-center attribute-box border-2 border-gray-200  rounded-lg">
+							<div
+								className={`flex justify-center items-center attribute-box border-2 border-gray-200 rounded-lg animate__animated animate__zoomIn ${getBgColor(
+									"highestStat",
+									comparisonResults
+								)}`}>
 								<p className="responsive-text">
 									{highest_stat}
 								</p>
@@ -162,14 +204,22 @@ export const PokemonRow = ({ pokemon }) => {
 					</td>
 					<td className="py-1">
 						<div className="w-full flex justify-center">
-							<div className="flex justify-center items-center attribute-box border-2 border-gray-200  rounded-lg">
+							<div
+								className={`flex justify-center items-center attribute-box border-2 border-gray-200 rounded-lg animate__animated animate__zoomIn ${getBgColor(
+									"generation",
+									comparisonResults
+								)}`}>
 								<p className="responsive-text">{gen}</p>
 							</div>
 						</div>
 					</td>
 					<td className="py-1">
 						<div className="w-full flex justify-center">
-							<div className="flex justify-center items-center attribute-box border-2 border-gray-200  rounded-lg">
+							<div
+								className={`flex justify-center items-center attribute-box border-2 border-gray-200 rounded-lg animate__animated animate__zoomIn ${getBgColor(
+									"captureRate",
+									comparisonResults
+								)}`}>
 								<p className="responsive-text">
 									{capture_rate}
 								</p>
@@ -178,14 +228,22 @@ export const PokemonRow = ({ pokemon }) => {
 					</td>
 					<td className="py-1">
 						<div className="w-full flex justify-center">
-							<div className="flex justify-center items-center attribute-box border-2 border-gray-200  rounded-lg">
+							<div
+								className={`flex justify-center items-center attribute-box border-2 border-gray-200 rounded-lg animate__animated animate__zoomIn ${getBgColor(
+									"habitat",
+									comparisonResults
+								)}`}>
 								<p className="responsive-text">{habitat}</p>
 							</div>
 						</div>
 					</td>
 					<td className="normal-case py-1">
 						<div className="w-full flex justify-center">
-							<div className="flex justify-center items-center attribute-box border-2 border-gray-200  rounded-lg">
+							<div
+								className={`flex justify-center items-center attribute-box border-2 border-gray-200 rounded-lg animate__animated animate__zoomIn ${getBgColor(
+									"height",
+									comparisonResults
+								)}`}>
 								<p className="responsive-text normal-case">
 									{height / 10}m
 								</p>
@@ -194,7 +252,11 @@ export const PokemonRow = ({ pokemon }) => {
 					</td>
 					<td className="normal-case py-1">
 						<div className="w-full flex justify-center">
-							<div className="flex justify-center items-center attribute-box border-2 border-gray-200  rounded-lg">
+							<div
+								className={`flex justify-center items-center attribute-box border-2 border-gray-200 rounded-lg animate__animated animate__zoomIn ${getBgColor(
+									"weight",
+									comparisonResults
+								)}`}>
 								<p className="responsive-text normal-case">
 									{weight / 10}kg
 								</p>

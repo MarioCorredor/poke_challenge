@@ -1,0 +1,15 @@
+<!-- <svg id="Layer_1" data-name="Layer 1"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <title>Trade_Icons</title>
+    <polygon points="2.38 7 14.38 7 8.38 14 2.38 7" fill="darkred" stroke="darkred"/>
+    <rect x="6.38" y="2.11" width="4" height="6" transform="translate(16.75 10.22) rotate(-180)" fill="darkred" stroke="darkred"/>
+</svg> -->
+
+<svg id="Layer_1" data-name="Layer 1"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <title>Trade_Icons</title>
+    <g transform="rotate(180, 8, 8)">
+        <polygon points="14.13 9.11 2.13 9.11 8.13 2.11 14.13 9.11" fill="darkred" stroke="darkred"/>
+        <rect x="6.12" y="8" fill="darkred" stroke="darkred" width="4" height="6"/>
+    </g>
+</svg>
