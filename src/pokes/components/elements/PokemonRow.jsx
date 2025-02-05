@@ -7,8 +7,8 @@ import {
 	getBgColor,
 } from "../../../helpers";
 import { useFetch } from "../../../hooks";
-import "./PokemonRow.css";
 import { usePokemon } from "../../../contexts";
+import "./PokemonRow.css";
 
 export const PokemonRow = ({ pokemon }) => {
 	const {
@@ -31,6 +31,7 @@ export const PokemonRow = ({ pokemon }) => {
 	const [evoInfo, setEvoInfo] = useState({ stage: "", trigger: "None" });
 	const { dailyPokemons } = usePokemon();
 	const [dailyPokemon, setDailyPokemon] = useState({});
+	const [dailyPokemonEvoData, setDailyPokemonEvoData] = useState(null);
 	const [comparisonResults, setComparisonResults] = useState({});
 
 	const highest_stat = getHighestStat(stats);
@@ -48,17 +49,6 @@ export const PokemonRow = ({ pokemon }) => {
 		if (dailyPokemons.length < 1) return;
 		setDailyPokemon(dailyPokemons[0]);
 	}, [dailyPokemons]);
-
-	useEffect(() => {
-		if (dailyPokemon && pokemon) {
-			// Guardamos el resultado de las comparaciones en un estado
-			const comparisonResult = comparePokemonAttributes(
-				dailyPokemon,
-				pokemon
-			);
-			setComparisonResults(comparisonResult);
-		}
-	}, [dailyPokemon, pokemon]);
 
 	const adjustFontSize = (element) => {
 		const textLength = element.textContent.trim().length;
@@ -92,6 +82,59 @@ export const PokemonRow = ({ pokemon }) => {
 		height,
 		weight,
 	]);
+
+	useEffect(() => {
+		if (!dailyPokemon?.id) return;
+
+		const fetchDailyPokemonEvolution = async () => {
+			try {
+				const response = await fetch(
+					`https://poke-backend-tvv2.onrender.com/pokemons/${dailyPokemon.id}/evolution`
+				);
+				const result = await response.json();
+				setDailyPokemonEvoData(result);
+			} catch (error) {
+				console.error("Error fetching daily Pokémon evolution:", error);
+			}
+		};
+
+		fetchDailyPokemonEvolution();
+	}, [dailyPokemon]);
+
+	useEffect(() => {
+		if (!dailyPokemon || !pokemon || !data || !dailyPokemonEvoData) return;
+
+		const dailyPokemonEvolution = getEvolutionStage(
+			dailyPokemonEvoData,
+			dailyPokemon.name
+		);
+		const dailyPokemonHighestStat = getHighestStat(dailyPokemon.stats);
+
+		const pokemonEvolution = getEvolutionStage(data, pokemon.name);
+		const pokemonHighestStat = getHighestStat(pokemon.stats);
+
+		// Crear los objetos enriquecidos con evolución y stat más alta
+		const enrichedDailyPokemon = {
+			...dailyPokemon,
+			evolutionStage: dailyPokemonEvolution.stage,
+			evolutionTrigger: dailyPokemonEvolution.trigger,
+			highestStat: dailyPokemonHighestStat,
+		};
+
+		const enrichedPokemon = {
+			...pokemon,
+			evolutionStage: pokemonEvolution.stage,
+			evolutionTrigger: pokemonEvolution.trigger,
+			highestStat: pokemonHighestStat,
+		};
+
+		// Comparar atributos y actualizar el estado de resultados
+		const comparisonResult = comparePokemonAttributes(
+			enrichedDailyPokemon,
+			enrichedPokemon
+		);
+		setComparisonResults(comparisonResult);
+	}, [dailyPokemon, pokemon, data, dailyPokemonEvoData]);
 
 	return (
 		<tr className="text-center border-gray-200">
