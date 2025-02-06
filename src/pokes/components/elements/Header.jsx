@@ -3,7 +3,11 @@ import React from "react";
 export const Header = () => {
 	return (
 		<>
-			<div>Header</div>
+			<div className="flex justify-center w-full">
+				<div>
+					<p>PokéChallenges</p>
+				</div>
+			</div>
 		</>
 	);
 };

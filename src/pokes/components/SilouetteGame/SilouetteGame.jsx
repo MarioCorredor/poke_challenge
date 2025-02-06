@@ -9,7 +9,7 @@ export const SilouetteGame = () => {
 
 	const [pokemons, setPokemons] = useState([]);
 
-	const [blurIntensity, setBlurIntensity] = useState(15);
+	const [blurIntensity, setBlurIntensity] = useState(5);
 	const [zoomLevel, setZoomLevel] = useState(3.9); // Zoom inicial
 	const [transformOrigin, setTransformOrigin] = useState("center center");
 
@@ -18,8 +18,8 @@ export const SilouetteGame = () => {
 		setDailyPokemon(dailyPokemons[2]);
 
 		// Al cargar la imagen, elegimos un punto aleatorio de enfoque
-		const randomX = Math.random() * 100;
-		const randomY = Math.random() * 100;
+		const randomX = 30 + Math.random() * 40; // Entre 30% y 70%
+		const randomY = 30 + Math.random() * 40; // Entre 30% y 70%
 		setTransformOrigin(`${randomX}% ${randomY}%`);
 	}, [dailyPokemons]);
 
@@ -30,8 +30,8 @@ export const SilouetteGame = () => {
 		if (pokemonData) {
 			setPokemons((prev) => [...prev, ...pokemonData.flat()]);
 
-			setBlurIntensity((prev) => Math.max(prev - 2, 3));
-			setZoomLevel((prev) => Math.max(prev - 0.15, 3));
+			setBlurIntensity((prev) => Math.max(prev - 0.5, 2));
+			setZoomLevel((prev) => Math.max(prev - 0.30, 2));
 		}
 	};
 

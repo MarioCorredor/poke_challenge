@@ -7,10 +7,12 @@ import {
 	SilouettePage,
 } from "../src/pokes/pages";
 import { PokemonProvider } from "./contexts";
+import { Header } from "./pokes/components";
 
 export const PokeChallengesApp = () => {
 	return (
 		<>
+			<Header />
 			<PokemonProvider>
 				<Routes>
 					<Route path="/" element={<HomePage />} />
