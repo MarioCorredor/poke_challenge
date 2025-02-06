@@ -1,56 +1,85 @@
 .search-container {
-	position: relative;
-	width: 250px;
+    position: relative;
+    width: 300px;
 }
 
 .search-box {
-	display: flex;
-	align-items: center;
-	gap: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .search-box input {
-	flex: 1;
-	padding: 8px;
-	width: 100%;
-	border: 1px solid gray;
-	border-radius: 4px;
+    flex: 1;
+    padding: 8px;
+    width: 100%;
+    max-width: 300px;
+    border: 1px solid gray;
+    border-radius: 4px;
 }
 
 .search-box button {
-	padding: 8px 12px;
-	border: none;
-	background-color: #ffcc00;
-	cursor: pointer;
-	border-radius: 4px;
+    padding: 8px 12px;
+    border: none;
+    background-color: #ffcc00;
+    cursor: pointer;
+    border-radius: 4px;
 }
 
 .dropdown {
-	position: absolute;
-	top: 100%;
-	width: 100%;
-	background: white;
-	border: 1px solid gray;
-	list-style: none;
-	padding: 0;
-	margin-top: 5px;
-	max-height: 150px;
-	overflow-y: auto;
-	border-radius: 4px;
-	z-index: 1000;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: white;
+    border: 1px solid gray;
+    list-style: none;
+    padding: 0;
+    margin-top: 5px;
+    max-height: 250px;
+    overflow-y: auto;
+    border-radius: 4px;
+    z-index: 1000;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombras para resaltar */
 }
 
 .dropdown li {
     display: flex;
     align-items: center;
     gap: 10px;
+    padding: 8px;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Agrega puntos suspensivos si el nombre es muy largo */
+    max-width: 100%; /* Evita que se expanda demasiado */
 }
 
 .dropdown li:hover {
-	background: #ffcc00;
+    background: #ffcc00;
 }
 
 .pokemon-img {
     width: 20px;
     height: 20px;
+    flex-shrink: 0; /* Evita que la imagen cambie de tamaño */
+}
+
+.search-container {
+	::-webkit-scrollbar {
+		width: 10px;
+	}
+
+	::-webkit-scrollbar-track {
+		box-shadow: inset 0 0 5px grey;
+		border-radius: 10px;
+	}
+
+	::-webkit-scrollbar-thumb {
+		background: #ffbb00;
+		border-radius: 10px;
+	}
+
+	::-webkit-scrollbar-thumb:hover {
+		background: rgb(255, 166, 0);
+	}
 }

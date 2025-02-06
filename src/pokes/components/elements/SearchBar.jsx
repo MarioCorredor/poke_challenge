@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { getAllPokemonNames, getPokemonImage } from "../../../helpers";
 import { SendHorizontal } from "lucide-react";
+import './SearchBar.css'
 
 export const SearchBar = ({ onSelectPokemon }) => {
     const [search, setSearch] = useState("");
@@ -67,9 +68,9 @@ export const SearchBar = ({ onSelectPokemon }) => {
                     }}
                     onFocus={() => search.length >= 2}
                     onKeyDown={handleKeyDown}
-                    className="flex-1 p-2 outline-none"
+                    className="flex-1 p-2 outline-none w-full"
                 />
-                <button onClick={() => handleSelectPokemon()} className="ml-2">
+                <button onClick={() => handleSelectPokemon()}>
                     <SendHorizontal className="w-6 h-6 cursor-pointer text-gray-600 hover:text-black" />
                 </button>
             </div>

@@ -4,9 +4,9 @@ import { getPokemon } from "../../../helpers";
 import { PokemonTable, SearchBar } from "..";
 import { usePokemon } from "../../../contexts";
 
-export const ClassicGame = () => {
+export const ClassicGame = (  ) => {
 	const { dailyPokemons } = usePokemon();
-	const [ dailyPokemon, setDailyPokemon ] = useState({});
+	const [dailyPokemon, setDailyPokemon] = useState({});
 
 	const [pokemons, setPokemons] = useState([]);
 
@@ -17,7 +17,6 @@ export const ClassicGame = () => {
 
 	const handleSelectPokemon = async (name) => {
 		if (!name) return;
-
 		const pokemonData = await getPokemon(name);
 		if (pokemonData) {
 			setPokemons((prev) => [...prev, ...pokemonData.flat()]);
@@ -26,14 +25,12 @@ export const ClassicGame = () => {
 
 	return (
 		<>
-			<>
-				<div className="flex justify-self-center w-[800px]">
-					<PokemonTable pokemons={pokemons} />
-				</div>
-				<div className="flex justify-self-center">
-					<SearchBar onSelectPokemon={handleSelectPokemon} />
-				</div>
-			</>
+			<div className="flex justify-self-center">
+				<SearchBar onSelectPokemon={handleSelectPokemon} />
+			</div>
+			<div className="flex justify-self-center w-[800px]">
+				<PokemonTable pokemons={pokemons} />
+			</div>
 		</>
 	);
 };
