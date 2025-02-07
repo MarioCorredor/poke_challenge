@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { usePokemon } from "../../../contexts";
 import { comparateNames, getBgColor, getCardAnimation } from "../../../helpers";
-import "./PokemonListCard.css"
+import "./PokemonListCard.css";
 
 export const PokemonListCard = ({ pokemon, dailyPokemon }) => {
 	const {
@@ -20,15 +20,18 @@ export const PokemonListCard = ({ pokemon, dailyPokemon }) => {
 	} = pokemon;
 	const [comparisonResults, setComparisonResults] = useState({});
 	useEffect(() => {
-		if (pokemon === null || dailyPokemon === null) return;
+		if (!pokemon || !dailyPokemon || !dailyPokemon.name) return;
 		setComparisonResults(comparateNames(pokemon, dailyPokemon));
-	}, []);
+	}, [pokemon, dailyPokemon]); // <-- Ahora el efecto se ejecuta cuando `dailyPokemon` cambia
 
 	return (
 		<>
 			{comparisonResults != null ? (
 				<>
-					<div className={`flex flex-row items-center border-2 rounded-lg w-[300px] animate__animated ${getCardAnimation(comparisonResults)} ${getBgColor("name", comparisonResults)}`}>
+					<div
+						className={`flex flex-row items-center border-2 rounded-lg w-[300px] animate__animated ${getCardAnimation(
+							comparisonResults
+						)} ${getBgColor("name", comparisonResults)}`}>
 						<img src={front_default} />
 						<div className="flex justify-start w-full">
 							<p className="capitalize">{name}</p>

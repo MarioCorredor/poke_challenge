@@ -11,3 +11,16 @@
 	font-weight: bold;
 	font-style: normal;
 }
+
+.header-title {
+	font-family: 'PokeHeaderFont', sans-serif;
+	font-size: 40px;
+}
+
+.header-div:hover {
+	transform: scale(1.1);
+}
+
+.header-div {
+    transition: transform 0.5s ease, box-shadow 0.3s ease;
+}

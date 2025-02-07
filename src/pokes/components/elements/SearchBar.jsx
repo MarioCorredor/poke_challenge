@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { getAllPokemonNames, getPokemonImage } from "../../../helpers";
 import { SendHorizontal } from "lucide-react";
-import './SearchBar.css'
+import './SearchBar.css';
 
-export const SearchBar = ({ onSelectPokemon }) => {
+export const SearchBar = ({ onSelectPokemon, selectedPokemons = [] }) => {
     const [search, setSearch] = useState("");
     const [allPokemon, setAllPokemon] = useState([]);
     const [availablePokemon, setAvailablePokemon] = useState([]);
@@ -14,10 +14,16 @@ export const SearchBar = ({ onSelectPokemon }) => {
         const loadPokemon = async () => {
             const names = await getAllPokemonNames();
             setAllPokemon(names);
-            setAvailablePokemon(names);
         };
         loadPokemon();
     }, []);
+
+    useEffect(() => {
+        const filtered = allPokemon.filter(name => !selectedPokemons.includes(name));
+        if (JSON.stringify(filtered) !== JSON.stringify(availablePokemon)) {
+            setAvailablePokemon(filtered);
+        }
+    }, [allPokemon, selectedPokemons]);
 
     const filteredPokemon = useMemo(() => {
         if (search.length < 2) return [];
@@ -43,8 +49,7 @@ export const SearchBar = ({ onSelectPokemon }) => {
         const selectedPokemon = name || filteredPokemon[0];
         if (!selectedPokemon) return;
 
-        onSelectPokemon(selectedPokemon); // Llamar a la función pasada desde ClassicGame
-        setAvailablePokemon(prev => prev.filter(pokemon => pokemon !== selectedPokemon));
+        onSelectPokemon(selectedPokemon);
         setSearch("");
         setShowDropdown(false);
     };
@@ -68,7 +73,7 @@ export const SearchBar = ({ onSelectPokemon }) => {
                     }}
                     onFocus={() => search.length >= 2}
                     onKeyDown={handleKeyDown}
-                    className="flex-1 p-2 outline-none w-full"
+                    className="flex-1 p-2 outline-none w-full text-sm"
                 />
                 <button onClick={() => handleSelectPokemon()}>
                     <SendHorizontal className="w-6 h-6 cursor-pointer text-gray-600 hover:text-black" />

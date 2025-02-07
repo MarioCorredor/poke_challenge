@@ -7,19 +7,39 @@ export const SilouetteGame = () => {
 	const { dailyPokemons } = usePokemon();
 	const [dailyPokemon, setDailyPokemon] = useState({});
 
-	const [pokemons, setPokemons] = useState([]);
+	const [pokemons, setPokemons] = useState(
+		JSON.parse(localStorage.getItem("silouettePokemons")) || []
+	);
 
 	const [blurIntensity, setBlurIntensity] = useState(5);
-	const [zoomLevel, setZoomLevel] = useState(3.9); // Zoom inicial
+	const [zoomLevel, setZoomLevel] = useState(3.9);
 	const [transformOrigin, setTransformOrigin] = useState("center center");
 
 	useEffect(() => {
-		if (dailyPokemons.length < 1) return;
-		setDailyPokemon(dailyPokemons[2]);
+		const storedDailyPokemon = JSON.parse(
+			localStorage.getItem("dailySilouettePokemon")
+		);
 
-		// Al cargar la imagen, elegimos un punto aleatorio de enfoque
-		const randomX = 30 + Math.random() * 40; // Entre 30% y 70%
-		const randomY = 30 + Math.random() * 40; // Entre 30% y 70%
+		if (dailyPokemons.length > 2) {
+			const newDailyPokemon = dailyPokemons[2];
+
+			if (
+				!storedDailyPokemon ||
+				storedDailyPokemon.id !== newDailyPokemon.id
+			) {
+				localStorage.setItem(
+					"dailySilouettePokemon",
+					JSON.stringify(newDailyPokemon)
+				);
+				localStorage.removeItem("silouettePokemons");
+				setPokemons([]);
+			}
+
+			setDailyPokemon(newDailyPokemon);
+		}
+
+		const randomX = 30 + Math.random() * 40;
+		const randomY = 30 + Math.random() * 40;
 		setTransformOrigin(`${randomX}% ${randomY}%`);
 	}, [dailyPokemons]);
 
@@ -28,11 +48,21 @@ export const SilouetteGame = () => {
 
 		const pokemonData = await getPokemon(name);
 		if (pokemonData) {
-			setPokemons((prev) => [...prev, ...pokemonData.flat()]);
+			const newPokemons = [...pokemons, ...pokemonData.flat()].filter(
+				(p, index, self) =>
+					index === self.findIndex((t) => t.id === p.id)
+			);
+
+			setPokemons(newPokemons);
+			saveToLocalStorage(newPokemons);
 
 			setBlurIntensity((prev) => Math.max(prev - 0.5, 2));
-			setZoomLevel((prev) => Math.max(prev - 0.30, 2));
+			setZoomLevel((prev) => Math.max(prev - 0.3, 2));
 		}
+	};
+
+	const saveToLocalStorage = (newPokemons) => {
+		localStorage.setItem("silouettePokemons", JSON.stringify(newPokemons));
 	};
 
 	return (
@@ -63,7 +93,10 @@ export const SilouetteGame = () => {
 						</div>
 					</div>
 					<div className="flex justify-self-center mt-5">
-						<SearchBar onSelectPokemon={handleSelectPokemon} />
+						<SearchBar
+							onSelectPokemon={handleSelectPokemon}
+							selectedPokemons={pokemons.map((p) => p.name)}
+						/>
 					</div>
 					{pokemons.length === 0 ? (
 						<></>
