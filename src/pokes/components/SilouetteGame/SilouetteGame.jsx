@@ -4,7 +4,7 @@ import { PokemonListCard, SearchBar } from "..";
 import { getPokemon } from "../../../helpers";
 
 export const SilouetteGame = () => {
-	const { dailyPokemons } = usePokemon();
+	const { dailyPokemons, isSilouettePokemonGuessed, setIsSilouettePokemonGuessed } = usePokemon();
 	const [dailyPokemon, setDailyPokemon] = useState({});
 
 	const [pokemons, setPokemons] = useState(
@@ -36,6 +36,7 @@ export const SilouetteGame = () => {
 			}
 
 			setDailyPokemon(newDailyPokemon);
+			setIsSilouettePokemonGuessed(false);
 		}
 
 		const randomX = 30 + Math.random() * 40;
@@ -92,12 +93,14 @@ export const SilouetteGame = () => {
 							</div>
 						</div>
 					</div>
-					<div className="flex justify-self-center mt-5">
-						<SearchBar
-							onSelectPokemon={handleSelectPokemon}
-							selectedPokemons={pokemons.map((p) => p.name)}
-						/>
-					</div>
+					{!isSilouettePokemonGuessed && (
+						<div className="flex justify-self-center mt-5">
+							<SearchBar
+								onSelectPokemon={handleSelectPokemon}
+								selectedPokemons={pokemons.map((p) => p.name)}
+							/>
+						</div>
+					)}
 					{pokemons.length === 0 ? (
 						<></>
 					) : (

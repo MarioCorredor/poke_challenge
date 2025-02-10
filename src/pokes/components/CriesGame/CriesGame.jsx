@@ -5,7 +5,7 @@ import { SearchBar, PokemonListCard } from "../elements";
 import { getPokemon } from "../../../helpers";
 
 export const CriesGame = () => {
-	const { dailyPokemons } = usePokemon();
+	const { dailyPokemons, isCriesPokemonGuessed, setIsCriesPokemonGuessed } = usePokemon();
 	const [dailyPokemon, setDailyPokemon] = useState({});
 
 	const [pokemons, setPokemons] = useState(
@@ -13,18 +13,27 @@ export const CriesGame = () => {
 	);
 
 	useEffect(() => {
-		const storedDailyPokemon = JSON.parse(localStorage.getItem("dailyCriesPokemon"));
+		const storedDailyPokemon = JSON.parse(
+			localStorage.getItem("dailyCriesPokemon")
+		);
 
 		if (dailyPokemons.length > 1) {
 			const newDailyPokemon = dailyPokemons[1];
 
-			if (!storedDailyPokemon || storedDailyPokemon.id !== newDailyPokemon.id) {
-				localStorage.setItem("dailyCriesPokemon", JSON.stringify(newDailyPokemon));
+			if (
+				!storedDailyPokemon ||
+				storedDailyPokemon.id !== newDailyPokemon.id
+			) {
+				localStorage.setItem(
+					"dailyCriesPokemon",
+					JSON.stringify(newDailyPokemon)
+				);
 				localStorage.removeItem("criesPokemons");
 				setPokemons([]);
 			}
 
 			setDailyPokemon(newDailyPokemon);
+			setIsCriesPokemonGuessed(false);
 		}
 	}, [dailyPokemons]);
 
@@ -54,16 +63,28 @@ export const CriesGame = () => {
 					<CustomAudioPlayer src={dailyPokemon.cries?.latest} />
 				</div>
 			</div>
-			<div className="flex justify-self-center">
-				<SearchBar onSelectPokemon={handleSelectPokemon} selectedPokemons={pokemons.map(p => p.name)} />
-			</div>
+			{!isCriesPokemonGuessed && (
+				<div className="flex justify-self-center">
+					<SearchBar
+						onSelectPokemon={handleSelectPokemon}
+						selectedPokemons={pokemons.map((p) => p.name)}
+					/>
+				</div>
+			)}
 			{pokemons.length > 0 && (
 				<div className="flex justify-self-center justify-center flex-col w-[800px]">
-					{pokemons.map((pokemon) => (
-						<div className="flex justify-center mt-3" key={pokemon.id}>
-							<PokemonListCard pokemon={pokemon} dailyPokemon={dailyPokemon} />
-						</div>
-					)).reverse()}
+					{pokemons
+						.map((pokemon) => (
+							<div
+								className="flex justify-center mt-3"
+								key={pokemon.id}>
+								<PokemonListCard
+									pokemon={pokemon}
+									dailyPokemon={dailyPokemon}
+								/>
+							</div>
+						))
+						.reverse()}
 				</div>
 			)}
 		</>

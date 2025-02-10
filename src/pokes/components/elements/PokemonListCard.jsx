@@ -18,11 +18,40 @@ export const PokemonListCard = ({ pokemon, dailyPokemon }) => {
 		weight,
 		height,
 	} = pokemon;
+
 	const [comparisonResults, setComparisonResults] = useState({});
+	const {
+		dailyPokemons,
+		setIsCriesPokemonGuessed,
+		setIsSilouettePokemonGuessed,
+	} = usePokemon();
+
 	useEffect(() => {
 		if (!pokemon || !dailyPokemon || !dailyPokemon.name) return;
 		setComparisonResults(comparateNames(pokemon, dailyPokemon));
-	}, [pokemon, dailyPokemon]); // <-- Ahora el efecto se ejecuta cuando `dailyPokemon` cambia
+	}, [pokemon, dailyPokemon]);
+
+	useEffect(() => {
+		if (
+			dailyPokemon === null ||
+			pokemon === null ||
+			comparisonResults === null ||
+			Object.keys(comparisonResults).length === 0
+		)
+			return;
+
+		const namesMatch = Object.values(comparisonResults).every(
+			(result) => result === true
+		);
+
+		if ( dailyPokemon.name === dailyPokemons[1].name && namesMatch) {
+			setIsCriesPokemonGuessed(true);
+		}
+
+		if ( dailyPokemon.name === dailyPokemons[2].name && namesMatch) {
+			setIsSilouettePokemonGuessed(true);
+		}
+	}, [pokemon, dailyPokemon, comparisonResults]);
 
 	return (
 		<>

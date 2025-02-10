@@ -29,7 +29,10 @@ export const PokemonRow = ({ pokemon }) => {
 	const url = `https://poke-backend-tvv2.onrender.com/pokemons/${id}/evolution`;
 	const { data, isLoading, hasError } = useFetch(url);
 	const [evoInfo, setEvoInfo] = useState({ stage: "", trigger: "None" });
-	const { dailyPokemons } = usePokemon();
+	const {
+		dailyPokemons,
+		setIsClassicPokemonGuessed,
+	} = usePokemon();
 	const [dailyPokemon, setDailyPokemon] = useState({});
 	const [dailyPokemonEvoData, setDailyPokemonEvoData] = useState(null);
 	const [comparisonResults, setComparisonResults] = useState({});
@@ -136,14 +139,38 @@ export const PokemonRow = ({ pokemon }) => {
 		setComparisonResults(comparisonResult);
 	}, [dailyPokemon, pokemon, data, dailyPokemonEvoData]);
 
+	useEffect(() => {
+		if (
+			dailyPokemon === null ||
+			pokemon === null ||
+			comparisonResults === null ||
+			Object.keys(comparisonResults).length === 0
+		)
+			return;
+
+		const filteredResults = Object.entries(comparisonResults).filter(
+			([key]) => key !== "type1Crossed" && key !== "type2Crossed"
+		);
+
+		const allAttributesMatch =
+			filteredResults.length > 0 &&
+			filteredResults.every(
+				([, result]) => result === true || result === "equal"
+			);
+
+		if (allAttributesMatch) {
+			setIsClassicPokemonGuessed(true);
+		}
+	}, [pokemon, dailyPokemon, comparisonResults]);
+
 	return (
 		<tr className="text-center border-gray-200">
 			{hasError ? (
-				<td colSpan="13" className="py-1 text-red-500">
+				<td colSpan="13" className="py-3 text-red-500">
 					Error al cargar la información
 				</td>
 			) : isLoading ? (
-				<td colSpan="13" className="py-1">
+				<td colSpan="13" className="py-3">
 					<img
 						src="/pokeball.svg"
 						className="animate-spin mx-auto"
@@ -153,156 +180,184 @@ export const PokemonRow = ({ pokemon }) => {
 				</td>
 			) : (
 				<>
-					<td className="py-1">
+					<td className="py-3">
 						<div className="w-full flex justify-center">
-							<div className="flex justify-center items-center attribute-box border-2 border-gray-200 rounded-lg animate__animated animate__zoomIn">
-								<img src={front_default} alt={name} />
+							<div className="attribute-container animate__animated animate__zoomIn">
+								<div className="flex justify-center items-center attribute-box">
+									<img src={front_default} alt={name} />
+								</div>
 							</div>
 						</div>
 					</td>
-					<td className="py-1">
+					<td className="py-3">
 						<div className="w-full flex justify-center">
-							<div
-								className={`flex justify-center items-center attribute-box border-2 border-gray-200 rounded-lg animate__animated animate__zoomIn ${getBgColor(
-									"type1",
-									comparisonResults
-								)}`}>
-								<p className="responsive-text">{type1}</p>
+							<div className="attribute-container animate__animated animate__zoomIn">
+								<div
+									className={`flex justify-center items-center attribute-box ${getBgColor(
+										"type1",
+										comparisonResults
+									)}`}>
+									<p className="responsive-text">{type1}</p>
+								</div>
 							</div>
 						</div>
 					</td>
-					<td className="py-1">
+					<td className="py-3">
 						<div className="w-full flex justify-center">
-							<div
-								className={`flex justify-center items-center attribute-box border-2 border-gray-200 rounded-lg animate__animated animate__zoomIn ${getBgColor(
-									"type2",
-									comparisonResults
-								)}`}>
-								<p className="responsive-text">{type2}</p>
+							<div className="attribute-container animate__animated animate__zoomIn">
+								<div
+									className={`flex justify-center items-center attribute-box ${getBgColor(
+										"type2",
+										comparisonResults
+									)}`}>
+									<p className="responsive-text">{type2}</p>
+								</div>
 							</div>
 						</div>
 					</td>
-					<td className="py-1">
+					<td className="py-3">
 						<div className="w-full flex justify-center">
-							<div
-								className={`flex justify-center items-center attribute-box border-2 border-gray-200 rounded-lg animate__animated animate__zoomIn ${getBgColor(
-									"mainColor",
-									comparisonResults
-								)}`}>
-								<p className="responsive-text">{main_color}</p>
+							<div className="attribute-container animate__animated animate__zoomIn">
+								<div
+									className={`flex justify-center items-center attribute-box ${getBgColor(
+										"mainColor",
+										comparisonResults
+									)}`}>
+									<p className="responsive-text">
+										{main_color}
+									</p>
+								</div>
 							</div>
 						</div>
 					</td>
-					<td className="py-1">
+					<td className="py-3">
 						<div className="w-full flex justify-center">
-							<div
-								className={`flex justify-center items-center attribute-box border-2 border-gray-200 rounded-lg animate__animated animate__zoomIn ${getBgColor(
-									"evolutionStage",
-									comparisonResults
-								)}`}>
-								<p className="responsive-text">
-									{evoInfo.stage}
-								</p>
+							<div className="attribute-container animate__animated animate__zoomIn">
+								<div
+									className={`flex justify-center items-center attribute-box ${getBgColor(
+										"evolutionStage",
+										comparisonResults
+									)}`}>
+									<p className="responsive-text">
+										{evoInfo.stage}
+									</p>
+								</div>
 							</div>
 						</div>
 					</td>
-					<td className="py-1">
+					<td className="py-3">
 						<div className="w-full flex justify-center">
-							<div
-								className={`flex justify-center items-center attribute-box border-2 border-gray-200 rounded-lg animate__animated animate__zoomIn ${getBgColor(
-									"evolutionTrigger",
-									comparisonResults
-								)}`}>
-								<p className="responsive-text">
-									{evoInfo.trigger}
-								</p>
+							<div className="attribute-container animate__animated animate__zoomIn">
+								<div
+									className={`flex justify-center items-center attribute-box ${getBgColor(
+										"evolutionTrigger",
+										comparisonResults
+									)}`}>
+									<p className="responsive-text">
+										{evoInfo.trigger}
+									</p>
+								</div>
 							</div>
 						</div>
 					</td>
-					<td className="py-1">
+					<td className="py-3">
 						<div className="w-full flex justify-center">
-							<div
-								className={`flex justify-center items-center attribute-box border-2 border-gray-200 rounded-lg animate__animated animate__zoomIn ${getBgColor(
-									"ability",
-									comparisonResults
-								)}`}>
-								<p className="responsive-text">
-									{abilities[0]}
-								</p>
+							<div className="attribute-container animate__animated animate__zoomIn ">
+								<div
+									className={`flex justify-center items-center attribute-box ${getBgColor(
+										"ability",
+										comparisonResults
+									)}`}>
+									<p className="responsive-text">
+										{abilities[0]}
+									</p>
+								</div>
 							</div>
 						</div>
 					</td>
-					<td className="py-1">
+					<td className="py-3">
 						<div className="w-full flex justify-center">
-							<div
-								className={`flex justify-center items-center attribute-box border-2 border-gray-200 rounded-lg animate__animated animate__zoomIn ${getBgColor(
-									"highestStat",
-									comparisonResults
-								)}`}>
-								<p className="responsive-text">
-									{highest_stat}
-								</p>
+							<div className="attribute-container animate__animated animate__zoomIn">
+								<div
+									className={`flex justify-center items-center attribute-box ${getBgColor(
+										"highestStat",
+										comparisonResults
+									)}`}>
+									<p className="responsive-text">
+										{highest_stat}
+									</p>
+								</div>
 							</div>
 						</div>
 					</td>
-					<td className="py-1">
+					<td className="py-3">
 						<div className="w-full flex justify-center">
-							<div
-								className={`flex justify-center items-center attribute-box border-2 border-gray-200 rounded-lg animate__animated animate__zoomIn ${getBgColor(
-									"generation",
-									comparisonResults
-								)}`}>
-								<p className="responsive-text">{gen}</p>
+							<div className="attribute-container animate__animated animate__zoomIn">
+								<div
+									className={`flex justify-center items-center attribute-box ${getBgColor(
+										"generation",
+										comparisonResults
+									)}`}>
+									<p className="responsive-text">{gen}</p>
+								</div>
 							</div>
 						</div>
 					</td>
-					<td className="py-1">
+					<td className="py-3">
 						<div className="w-full flex justify-center">
-							<div
-								className={`flex justify-center items-center attribute-box border-2 border-gray-200 rounded-lg animate__animated animate__zoomIn ${getBgColor(
-									"captureRate",
-									comparisonResults
-								)}`}>
-								<p className="responsive-text">
-									{capture_rate}
-								</p>
+							<div className="attribute-container animate__animated animate__zoomIn">
+								<div
+									className={`flex justify-center items-center attribute-box ${getBgColor(
+										"captureRate",
+										comparisonResults
+									)}`}>
+									<p className="responsive-text">
+										{capture_rate}
+									</p>
+								</div>
 							</div>
 						</div>
 					</td>
-					<td className="py-1">
+					<td className="py-3">
 						<div className="w-full flex justify-center">
-							<div
-								className={`flex justify-center items-center attribute-box border-2 border-gray-200 rounded-lg animate__animated animate__zoomIn ${getBgColor(
-									"habitat",
-									comparisonResults
-								)}`}>
-								<p className="responsive-text">{habitat}</p>
+							<div className="attribute-container animate__animated animate__zoomIn">
+								<div
+									className={`flex justify-center items-center attribute-box ${getBgColor(
+										"habitat",
+										comparisonResults
+									)}`}>
+									<p className="responsive-text">{habitat}</p>
+								</div>
 							</div>
 						</div>
 					</td>
-					<td className="normal-case py-1">
+					<td className="normal-case py-3">
 						<div className="w-full flex justify-center">
-							<div
-								className={`flex justify-center items-center attribute-box border-2 border-gray-200 rounded-lg animate__animated animate__zoomIn ${getBgColor(
-									"height",
-									comparisonResults
-								)}`}>
-								<p className="responsive-text normal-case">
-									{height / 10}m
-								</p>
+							<div className="attribute-container animate__animated animate__zoomIn">
+								<div
+									className={`flex justify-center items-center attribute-box ${getBgColor(
+										"height",
+										comparisonResults
+									)}`}>
+									<p className="responsive-text normal-case">
+										{height / 10}m
+									</p>
+								</div>
 							</div>
 						</div>
 					</td>
-					<td className="normal-case py-1">
+					<td className="normal-case py-3">
 						<div className="w-full flex justify-center">
-							<div
-								className={`flex justify-center items-center attribute-box border-2 border-gray-200 rounded-lg animate__animated animate__zoomIn ${getBgColor(
-									"weight",
-									comparisonResults
-								)}`}>
-								<p className="responsive-text normal-case">
-									{weight / 10}kg
-								</p>
+							<div className="attribute-container animate__animated animate__zoomIn">
+								<div
+									className={`flex justify-center items-center attribute-box ${getBgColor(
+										"weight",
+										comparisonResults
+									)}`}>
+									<p className="responsive-text normal-case">
+										{weight / 10}kg
+									</p>
+								</div>
 							</div>
 						</div>
 					</td>

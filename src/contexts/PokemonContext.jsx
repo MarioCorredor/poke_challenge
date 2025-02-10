@@ -6,6 +6,9 @@ const PokemonContext = createContext();
 // Provider para envolver la app
 export const PokemonProvider = ({ children }) => {
 	const [dailyPokemons, setDailyPokemons] = useState([]);
+	const [isClassicPokemonGuessed, setIsClassicPokemonGuessed] = useState(false);
+	const [isCriesPokemonGuessed, setIsCriesPokemonGuessed] = useState(false);
+	const [isSilouettePokemonGuessed, setIsSilouettePokemonGuessed] = useState(false);
 
 	useEffect(() => {
 		const fetchDailyPokemons = async () => {
@@ -19,8 +22,7 @@ export const PokemonProvider = ({ children }) => {
 					)
 				);
 
-				// Extrae los Pokémon de cada respuesta y actualiza el estado
-				const pokemons = responses.map((data) => data.pokemon); // Suponiendo que `data.pokemon` es el nombre del Pokémon
+				const pokemons = responses.map((data) => data.pokemon);
 				setDailyPokemons(pokemons);
 			} catch (error) {
 				console.error("Error al obtener los Pokémon diarios:", error);
@@ -31,7 +33,17 @@ export const PokemonProvider = ({ children }) => {
 	}, []);
 
 	return (
-		<PokemonContext.Provider value={{ dailyPokemons, setDailyPokemons }}>
+		<PokemonContext.Provider
+			value={{
+				dailyPokemons,
+				setDailyPokemons,
+				isClassicPokemonGuessed,
+				setIsClassicPokemonGuessed,
+				isCriesPokemonGuessed,
+				setIsCriesPokemonGuessed,
+				isSilouettePokemonGuessed,
+				setIsSilouettePokemonGuessed,
+			}}>
 			{children}
 		</PokemonContext.Provider>
 	);
