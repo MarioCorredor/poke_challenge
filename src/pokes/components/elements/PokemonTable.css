@@ -8,3 +8,32 @@ table {
 	overflow: hidden;
 	width: fit-content;
 }
+
+.background-grid {
+	background: url("../../../assets/bg_grid_green.png");
+}
+
+.col-header{
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.col-header::before {
+	content: "";
+	position: absolute;
+	top: -6px;
+	left: -6px;
+	right: -5px;
+	bottom: -5px;
+	background-image: url("/src/assets/col-header.png");
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+	z-index: 1; /* Envía el contorno detrás del contenido */
+}
+
+.text-shadow {
+	text-shadow: 1px 1px #000000;
+}

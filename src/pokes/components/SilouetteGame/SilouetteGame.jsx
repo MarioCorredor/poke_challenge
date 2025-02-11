@@ -123,7 +123,7 @@ export const SilouetteGame = () => {
 			) : (
 				<div className="flex justify-center">
 					<img
-						src="/pokeball.svg"
+						src="/pokeball.png"
 						className="animate-spin mx-auto"
 						width="32"
 						height="32"

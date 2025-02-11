@@ -5,36 +5,169 @@ import "./PokemonTable.css";
 export const PokemonTable = ({ pokemons = [] }) => {
 	return (
 		<>
-			{pokemons.length > 0 ? (
-				<div className="max-h-[330px] overflow-auto border-2">
-					<table className="bg-white table-fixed border-collapse w-full capitalize">
+			<div className="background-grid h-[330px] overflow-auto border-2">
+				<table className="table-fixed border-collapse w-full capitalize text-white">
+					{ (
 						<thead>
-							<tr className="text-center">
-								<th className="py-1 auto-fit text-center">Pokémon</th>
-								<th className="py-1 auto-fit">Type 1</th>
-								<th className="py-1 auto-fit">Type 2</th>
-								<th className="py-1 auto-fit">Color</th>
-								<th className="py-1 auto-fit">Stage</th>
-								<th className="py-1 auto-fit">Evo Trigger</th>
-								<th className="py-1 auto-fit">Ability</th>
-								<th className="py-1 auto-fit">Highest Stat</th>
-								<th className="py-1 auto-fit">Gen</th>
-								<th className="py-1 auto-fit">Capture Rate</th>
-								<th className="py-1 auto-fit">Habitat</th>
-								<th className="py-1 auto-fit">Height</th>
-								<th className="py-1 auto-fit">Weight</th>
+							<tr className="text-center text-shadow">
+								<th className="py-1 text-center text-shadow">
+									<div className="w-full flex justify-center">
+										<div className="col-header w-[55px] h-[38px]">
+											<div className="flex justify-center items-center">
+												<p className="!text-[8px] z-10 text-white">
+													Pokémon
+												</p>
+											</div>
+										</div>
+									</div>
+								</th>
+								<th className="py-1 text-center text-shadow">
+									<div className="w-full flex justify-center">
+										<div className="col-header w-[55px] h-[38px]">
+											<div className="flex justify-center items-center">
+												<p className="!text-[8px] z-10 text-white">
+													Type 1
+												</p>
+											</div>
+										</div>
+									</div>
+								</th>
+								<th className="py-1 text-center text-shadow">
+									<div className="w-full flex justify-center">
+										<div className="col-header w-[55px] h-[38px]">
+											<div className="flex justify-center items-center">
+												<p className="!text-[8px] z-10 text-white">
+													Type 2
+												</p>
+											</div>
+										</div>
+									</div>
+								</th>
+								<th className="py-1 text-center text-shadow">
+									<div className="w-full flex justify-center">
+										<div className="col-header w-[55px] h-[38px]">
+											<div className="flex justify-center items-center">
+												<p className="!text-[8px] z-10 text-white">
+													Color
+												</p>
+											</div>
+										</div>
+									</div>
+								</th>
+								<th className="py-1 text-center text-shadow">
+									<div className="w-full flex justify-center">
+										<div className="col-header w-[55px] h-[38px]">
+											<div className="flex justify-center items-center">
+												<p className="!text-[8px] z-10 text-white">
+													Stage
+												</p>
+											</div>
+										</div>
+									</div>
+								</th>
+								<th className="py-1 text-center text-shadow">
+									<div className="w-full flex justify-center">
+										<div className="col-header w-[55px] h-[38px]">
+											<div className="flex justify-center items-center">
+												<p className="!text-[8px] z-10 text-white">
+													Evo Trigger
+												</p>
+											</div>
+										</div>
+									</div>
+								</th>
+								<th className="py-1 text-center text-shadow">
+									<div className="w-full flex justify-center">
+										<div className="col-header w-[55px] h-[38px]">
+											<div className="flex justify-center items-center">
+												<p className="!text-[8px] z-10 text-white">
+													Ability
+												</p>
+											</div>
+										</div>
+									</div>
+								</th>
+								<th className="py-1 text-center text-shadow">
+									<div className="w-full flex justify-center">
+										<div className="col-header w-[55px] h-[38px]">
+											<div className="flex justify-center items-center">
+												<p className="!text-[8px] z-10 text-white">
+													Highest Stat
+												</p>
+											</div>
+										</div>
+									</div>
+								</th>
+								<th className="py-1 text-center text-shadow">
+									<div className="w-full flex justify-center">
+										<div className="col-header w-[55px] h-[38px]">
+											<div className="flex justify-center items-center">
+												<p className="!text-[8px] z-10 text-white">
+													Gen
+												</p>
+											</div>
+										</div>
+									</div>
+								</th>
+								<th className="py-1 text-center text-shadow">
+									<div className="w-full flex justify-center">
+										<div className="col-header w-[55px] h-[38px]">
+											<div className="flex justify-center items-center">
+												<p className="!text-[8px] z-10 text-white">
+													Capture Rate
+												</p>
+											</div>
+										</div>
+									</div>
+								</th>
+								<th className="py-1 text-center text-shadow">
+									<div className="w-full flex justify-center">
+										<div className="col-header w-[55px] h-[38px]">
+											<div className="flex justify-center items-center">
+												<p className="!text-[8px] z-10 text-white">
+													Habitat
+												</p>
+											</div>
+										</div>
+									</div>
+								</th>
+								<th className="py-1 text-center text-shadow">
+									<div className="w-full flex justify-center">
+										<div className="col-header w-[55px] h-[38px]">
+											<div className="flex justify-center items-center">
+												<p className="!text-[8px] z-10 text-white">
+													Height
+												</p>
+											</div>
+										</div>
+									</div>
+								</th>
+								<th className="py-1 text-center text-shadow">
+									<div className="w-full flex justify-center">
+										<div className="col-header w-[55px] h-[38px]">
+											<div className="flex justify-center items-center">
+												<p className="!text-[8px] z-10 text-white">
+													Weight
+												</p>
+											</div>
+										</div>
+									</div>
+								</th>
 							</tr>
 						</thead>
-						<tbody>
-							{pokemons
-								.map((pokemon) => (
-									<PokemonRow key={pokemon.id} pokemon={pokemon} />
-								))
-								.reverse()}
-						</tbody>
-					</table>
-				</div>
-			) : null}
+					)}
+					<tbody>
+						{pokemons
+							.map((pokemon) => (
+								<PokemonRow
+									key={pokemon.id}
+									pokemon={pokemon}
+								/>
+							))
+							.reverse()}
+					</tbody>
+				</table>
+			</div>
 		</>
 	);
 };

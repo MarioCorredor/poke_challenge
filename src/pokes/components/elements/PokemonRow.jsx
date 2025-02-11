@@ -61,7 +61,7 @@ export const PokemonRow = ({ pokemon }) => {
 		let fontSize = maxSize;
 
 		if (textLength >= 6) {
-			const reductionFactor = Math.exp((textLength - 6) / 2);
+			const reductionFactor = Math.exp((textLength - 7) / 2);
 
 			fontSize = Math.max(minSize, maxSize - reductionFactor);
 		}
@@ -168,13 +168,13 @@ export const PokemonRow = ({ pokemon }) => {
 	return (
 		<tr className="text-center border-gray-200">
 			{hasError ? (
-				<td colSpan="13" className="py-2 text-red-500">
+				<td colSpan="13" className="py-2 text-shadow text-red-500">
 					Error al cargar la información
 				</td>
 			) : isLoading ? (
-				<td colSpan="13" className="py-2">
+				<td colSpan="13" className="py-2 text-shadow">
 					<img
-						src="/pokeball.svg"
+						src="/pokeball.png"
 						className="animate-spin mx-auto"
 						width="32"
 						height="32"
@@ -182,20 +182,20 @@ export const PokemonRow = ({ pokemon }) => {
 				</td>
 			) : (
 				<>
-					<td className="py-2">
+					<td className="py-2 text-shadow">
 						<div className="w-full flex justify-center">
 							<div className="attribute-container bg-white animate__animated animate__zoomIn">
-								<div className="flex justify-center items-center attribute-box">
+								<div className="flex justify-center items-center attribute-box shadow-2xl">
 									<img src={front_default} alt={name} />
 								</div>
 							</div>
 						</div>
 					</td>
-					<td className="py-2">
+					<td className="py-2 text-shadow">
 						<div className="w-full flex justify-center">
 							<div className="attribute-container animate__animated animate__zoomIn">
 								<div
-									className={`flex justify-center items-center attribute-box ${getBgColor(
+									className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
 										"type1",
 										comparisonResults
 									)}`}>
@@ -204,11 +204,11 @@ export const PokemonRow = ({ pokemon }) => {
 							</div>
 						</div>
 					</td>
-					<td className="py-2">
+					<td className="py-2 text-shadow">
 						<div className="w-full flex justify-center">
 							<div className="attribute-container animate__animated animate__zoomIn">
 								<div
-									className={`flex justify-center items-center attribute-box ${getBgColor(
+									className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
 										"type2",
 										comparisonResults
 									)}`}>
@@ -217,11 +217,11 @@ export const PokemonRow = ({ pokemon }) => {
 							</div>
 						</div>
 					</td>
-					<td className="py-2">
+					<td className="py-2 text-shadow">
 						<div className="w-full flex justify-center">
 							<div className="attribute-container animate__animated animate__zoomIn">
 								<div
-									className={`flex justify-center items-center attribute-box ${getBgColor(
+									className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
 										"mainColor",
 										comparisonResults
 									)}`}>
@@ -232,11 +232,11 @@ export const PokemonRow = ({ pokemon }) => {
 							</div>
 						</div>
 					</td>
-					<td className="py-2">
+					<td className="py-2 text-shadow">
 						<div className="w-full flex justify-center">
 							<div className="attribute-container animate__animated animate__zoomIn">
 								<div
-									className={`flex justify-center items-center attribute-box ${getBgColor(
+									className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
 										"evolutionStage",
 										comparisonResults
 									)}`}>
@@ -247,11 +247,11 @@ export const PokemonRow = ({ pokemon }) => {
 							</div>
 						</div>
 					</td>
-					<td className="py-2">
+					<td className="py-2 text-shadow">
 						<div className="w-full flex justify-center">
 							<div className="attribute-container animate__animated animate__zoomIn">
 								<div
-									className={`flex justify-center items-center attribute-box ${getBgColor(
+									className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
 										"evolutionTrigger",
 										comparisonResults
 									)}`}>
@@ -262,11 +262,11 @@ export const PokemonRow = ({ pokemon }) => {
 							</div>
 						</div>
 					</td>
-					<td className="py-2">
+					<td className="py-2 text-shadow">
 						<div className="w-full flex justify-center">
 							<div className="attribute-container animate__animated animate__zoomIn ">
 								<div
-									className={`flex justify-center items-center attribute-box ${getBgColor(
+									className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
 										"ability",
 										comparisonResults
 									)}`}>
@@ -277,11 +277,11 @@ export const PokemonRow = ({ pokemon }) => {
 							</div>
 						</div>
 					</td>
-					<td className="py-2">
+					<td className="py-2 text-shadow">
 						<div className="w-full flex justify-center">
 							<div className="attribute-container animate__animated animate__zoomIn">
 								<div
-									className={`flex justify-center items-center attribute-box ${getBgColor(
+									className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
 										"highestStat",
 										comparisonResults
 									)}`}>
@@ -292,11 +292,11 @@ export const PokemonRow = ({ pokemon }) => {
 							</div>
 						</div>
 					</td>
-					<td className="py-2">
+					<td className="py-2 text-shadow">
 						<div className="w-full flex justify-center">
 							<div className="attribute-container animate__animated animate__zoomIn">
 								<div
-									className={`flex justify-center items-center attribute-box ${getBgColor(
+									className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
 										"generation",
 										comparisonResults
 									)}`}>
@@ -305,11 +305,11 @@ export const PokemonRow = ({ pokemon }) => {
 							</div>
 						</div>
 					</td>
-					<td className="py-2">
+					<td className="py-2 text-shadow">
 						<div className="w-full flex justify-center">
 							<div className="attribute-container animate__animated animate__zoomIn">
 								<div
-									className={`flex justify-center items-center attribute-box ${getBgColor(
+									className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
 										"captureRate",
 										comparisonResults
 									)}`}>
@@ -320,11 +320,11 @@ export const PokemonRow = ({ pokemon }) => {
 							</div>
 						</div>
 					</td>
-					<td className="py-2">
+					<td className="py-2 text-shadow">
 						<div className="w-full flex justify-center">
 							<div className="attribute-container animate__animated animate__zoomIn">
 								<div
-									className={`flex justify-center items-center attribute-box ${getBgColor(
+									className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
 										"habitat",
 										comparisonResults
 									)}`}>
@@ -333,11 +333,11 @@ export const PokemonRow = ({ pokemon }) => {
 							</div>
 						</div>
 					</td>
-					<td className="normal-case py-2">
+					<td className="normal-case py-2 text-shadow">
 						<div className="w-full flex justify-center">
 							<div className="attribute-container animate__animated animate__zoomIn">
 								<div
-									className={`flex justify-center items-center attribute-box ${getBgColor(
+									className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
 										"height",
 										comparisonResults
 									)}`}>
@@ -348,11 +348,11 @@ export const PokemonRow = ({ pokemon }) => {
 							</div>
 						</div>
 					</td>
-					<td className="normal-case py-2">
+					<td className="normal-case py-2 text-shadow">
 						<div className="w-full flex justify-center">
 							<div className="attribute-container animate__animated animate__zoomIn">
 								<div
-									className={`flex justify-center items-center attribute-box ${getBgColor(
+									className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
 										"weight",
 										comparisonResults
 									)}`}>

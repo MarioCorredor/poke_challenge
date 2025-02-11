@@ -87,7 +87,7 @@ export const SearchBar = ({ onSelectPokemon, selectedPokemons = [] }) => {
                             className="flex items-center gap-2 p-2 hover:bg-gray-200 cursor-pointer capitalize overflow-hidden"
                         >
                             <img
-                                src={pokemonImages[name] || "/pokeball.svg"}
+                                src={pokemonImages[name] || "/pokeball.png"}
                                 className="w-10 h-10 object-contain"
                             />
                             {name}

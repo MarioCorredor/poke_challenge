@@ -71,7 +71,7 @@ export const PokemonListCard = ({ pokemon, dailyPokemon }) => {
 				<>
 					<div className="flex justify-center">
 						<img
-							src="/pokeball.svg"
+							src="/pokeball.png"
 							className="animate-spin mx-auto"
 							width="40"
 							height="40"
