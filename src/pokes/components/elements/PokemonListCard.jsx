@@ -61,7 +61,7 @@ export const PokemonListCard = ({ pokemon, dailyPokemon }) => {
 						className={`flex flex-row items-center border-2 rounded-lg w-[300px] animate__animated ${getCardAnimation(
 							comparisonResults
 						)} ${getBgColor("name", comparisonResults)}`}>
-						<img src={front_default} />
+						<img width="86" height="86" src={front_default} />
 						<div className="flex justify-start w-full">
 							<p className="capitalize">{name}</p>
 						</div>

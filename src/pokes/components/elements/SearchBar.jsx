@@ -62,7 +62,7 @@ export const SearchBar = ({ onSelectPokemon, selectedPokemons = [] }) => {
 
     return (
         <div className="search-container">
-            <div className="flex items-center border rounded-md p-2">
+            <div className="flex items-center border rounded-md p-2 bg-white">
                 <input
                     type="text"
                     placeholder="Search Pokémon..."

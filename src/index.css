@@ -17,4 +17,5 @@
 body {
 	font-family: "PokeFont", sans-serif;
 	letter-spacing: -0.5px; 
+	background-image: url("/src/assets/pattern.png");
 }

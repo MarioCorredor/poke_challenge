@@ -71,7 +71,7 @@ export const SilouetteGame = () => {
 			{dailyPokemon !== null ? (
 				<>
 					<div>
-						<div className="flex justify-self-center flex-col justify-center w-[500px] border-2 rounded-lg mt-2">
+						<div className="flex justify-self-center flex-col justify-center w-[450px] border-2 rounded-lg mt-2">
 							<p className="text-center mt-2">
 								Who is this pokemon?
 							</p>

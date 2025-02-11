@@ -14,15 +14,15 @@ export const comparePokemonAttributes = (pokemon, dailyPokemon) => {
 		ability: dailyPokemon.abilities?.[0] === pokemon.abilities?.[0],
 		mainColor: dailyPokemon.main_color === pokemon.main_color,
 		highestStat: dailyPokemon.highestStat === pokemon.highestStat,
-		generation: compareNumeric(pokemon.generation, dailyPokemon.generation),
+		generation: compareNumeric(dailyPokemon.generation, pokemon.generation),
 		captureRate: compareNumeric(
-			pokemon.capture_rate,
-			dailyPokemon.capture_rate
+			dailyPokemon.capture_rate,
+			pokemon.capture_rate
 		),
 		habitat: dailyPokemon.habitat === pokemon.habitat,
-		height: compareNumeric(pokemon.height, dailyPokemon.height),
-		weight: compareNumeric(pokemon.weight, dailyPokemon.weight),
-		evolutionStage: compareNumeric(pokemon.evolutionStage, dailyPokemon.evolutionStage),
+		height: compareNumeric(dailyPokemon.height, pokemon.height),
+		weight: compareNumeric(dailyPokemon.weight, pokemon.weight),
+		evolutionStage: compareNumeric(dailyPokemon.evolutionStage, pokemon.evolutionStage),
 		evolutionTrigger:
 		dailyPokemon.evolutionTrigger === pokemon.evolutionTrigger,
 	};

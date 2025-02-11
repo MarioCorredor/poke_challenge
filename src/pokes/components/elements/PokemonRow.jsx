@@ -122,19 +122,21 @@ export const PokemonRow = ({ pokemon }) => {
 			evolutionStage: dailyPokemonEvolution.stage,
 			evolutionTrigger: dailyPokemonEvolution.trigger,
 			highestStat: dailyPokemonHighestStat,
+			generation: getGeneration(dailyPokemon.generation), // Convierte aquí
 		};
-
+		
 		const enrichedPokemon = {
 			...pokemon,
 			evolutionStage: pokemonEvolution.stage,
 			evolutionTrigger: pokemonEvolution.trigger,
 			highestStat: pokemonHighestStat,
+			generation: getGeneration(pokemon.generation), // Convierte aquí
 		};
 
 		// Comparar atributos y actualizar el estado de resultados
 		const comparisonResult = comparePokemonAttributes(
-			enrichedDailyPokemon,
-			enrichedPokemon
+			enrichedPokemon,
+			enrichedDailyPokemon
 		);
 		setComparisonResults(comparisonResult);
 	}, [dailyPokemon, pokemon, data, dailyPokemonEvoData]);
@@ -166,11 +168,11 @@ export const PokemonRow = ({ pokemon }) => {
 	return (
 		<tr className="text-center border-gray-200">
 			{hasError ? (
-				<td colSpan="13" className="py-3 text-red-500">
+				<td colSpan="13" className="py-2 text-red-500">
 					Error al cargar la información
 				</td>
 			) : isLoading ? (
-				<td colSpan="13" className="py-3">
+				<td colSpan="13" className="py-2">
 					<img
 						src="/pokeball.svg"
 						className="animate-spin mx-auto"
@@ -180,16 +182,16 @@ export const PokemonRow = ({ pokemon }) => {
 				</td>
 			) : (
 				<>
-					<td className="py-3">
+					<td className="py-2">
 						<div className="w-full flex justify-center">
-							<div className="attribute-container animate__animated animate__zoomIn">
+							<div className="attribute-container bg-white animate__animated animate__zoomIn">
 								<div className="flex justify-center items-center attribute-box">
 									<img src={front_default} alt={name} />
 								</div>
 							</div>
 						</div>
 					</td>
-					<td className="py-3">
+					<td className="py-2">
 						<div className="w-full flex justify-center">
 							<div className="attribute-container animate__animated animate__zoomIn">
 								<div
@@ -202,7 +204,7 @@ export const PokemonRow = ({ pokemon }) => {
 							</div>
 						</div>
 					</td>
-					<td className="py-3">
+					<td className="py-2">
 						<div className="w-full flex justify-center">
 							<div className="attribute-container animate__animated animate__zoomIn">
 								<div
@@ -215,7 +217,7 @@ export const PokemonRow = ({ pokemon }) => {
 							</div>
 						</div>
 					</td>
-					<td className="py-3">
+					<td className="py-2">
 						<div className="w-full flex justify-center">
 							<div className="attribute-container animate__animated animate__zoomIn">
 								<div
@@ -230,7 +232,7 @@ export const PokemonRow = ({ pokemon }) => {
 							</div>
 						</div>
 					</td>
-					<td className="py-3">
+					<td className="py-2">
 						<div className="w-full flex justify-center">
 							<div className="attribute-container animate__animated animate__zoomIn">
 								<div
@@ -245,7 +247,7 @@ export const PokemonRow = ({ pokemon }) => {
 							</div>
 						</div>
 					</td>
-					<td className="py-3">
+					<td className="py-2">
 						<div className="w-full flex justify-center">
 							<div className="attribute-container animate__animated animate__zoomIn">
 								<div
@@ -260,7 +262,7 @@ export const PokemonRow = ({ pokemon }) => {
 							</div>
 						</div>
 					</td>
-					<td className="py-3">
+					<td className="py-2">
 						<div className="w-full flex justify-center">
 							<div className="attribute-container animate__animated animate__zoomIn ">
 								<div
@@ -275,7 +277,7 @@ export const PokemonRow = ({ pokemon }) => {
 							</div>
 						</div>
 					</td>
-					<td className="py-3">
+					<td className="py-2">
 						<div className="w-full flex justify-center">
 							<div className="attribute-container animate__animated animate__zoomIn">
 								<div
@@ -290,7 +292,7 @@ export const PokemonRow = ({ pokemon }) => {
 							</div>
 						</div>
 					</td>
-					<td className="py-3">
+					<td className="py-2">
 						<div className="w-full flex justify-center">
 							<div className="attribute-container animate__animated animate__zoomIn">
 								<div
@@ -303,7 +305,7 @@ export const PokemonRow = ({ pokemon }) => {
 							</div>
 						</div>
 					</td>
-					<td className="py-3">
+					<td className="py-2">
 						<div className="w-full flex justify-center">
 							<div className="attribute-container animate__animated animate__zoomIn">
 								<div
@@ -318,7 +320,7 @@ export const PokemonRow = ({ pokemon }) => {
 							</div>
 						</div>
 					</td>
-					<td className="py-3">
+					<td className="py-2">
 						<div className="w-full flex justify-center">
 							<div className="attribute-container animate__animated animate__zoomIn">
 								<div
@@ -331,7 +333,7 @@ export const PokemonRow = ({ pokemon }) => {
 							</div>
 						</div>
 					</td>
-					<td className="normal-case py-3">
+					<td className="normal-case py-2">
 						<div className="w-full flex justify-center">
 							<div className="attribute-container animate__animated animate__zoomIn">
 								<div
@@ -346,7 +348,7 @@ export const PokemonRow = ({ pokemon }) => {
 							</div>
 						</div>
 					</td>
-					<td className="normal-case py-3">
+					<td className="normal-case py-2">
 						<div className="w-full flex justify-center">
 							<div className="attribute-container animate__animated animate__zoomIn">
 								<div
