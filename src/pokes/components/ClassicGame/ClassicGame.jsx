@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useFetch } from "../../../hooks";
 import { getPokemon } from "../../../helpers";
 import { PokemonTable, SearchBar } from "..";
 import { usePokemon } from "../../../contexts";

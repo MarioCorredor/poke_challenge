@@ -2,11 +2,9 @@ import React, { useEffect, useState } from "react";
 import {
 	getHighestStat,
 	getGeneration,
-	getEvolutionStage,
 	comparePokemonAttributes,
 	getBgColor,
 } from "../../../helpers";
-import { useFetch } from "../../../hooks";
 import { usePokemon } from "../../../contexts";
 import "./PokemonRow.css";
 
@@ -17,41 +15,26 @@ export const PokemonRow = ({ pokemon }) => {
 		sprites: { front_default },
 		abilities,
 		types,
-		habitat,
 		main_color,
 		stats,
 		capture_rate,
 		generation,
+		habitat,
 		weight,
 		height,
+		evolution_stage,
+		evolution_trigger,
 	} = pokemon;
 
-	const url = `https://poke-backend-tvv2.onrender.com/pokemons/${id}/evolution`;
-	const { data, isLoading, hasError } = useFetch(url);
-	const [evoInfo, setEvoInfo] = useState({ stage: "", trigger: "None" });
-	const {
-		dailyPokemons,
-		setIsClassicPokemonGuessed,
-	} = usePokemon();
+	const { dailyPokemons, setIsClassicPokemonGuessed } = usePokemon();
+
 	const [dailyPokemon, setDailyPokemon] = useState({});
-	const [dailyPokemonEvoData, setDailyPokemonEvoData] = useState(null);
 	const [comparisonResults, setComparisonResults] = useState({});
 
 	const highest_stat = getHighestStat(stats);
 	const gen = getGeneration(generation);
 	const type1 = types[0] || "None";
 	const type2 = types[1] || "None";
-
-	useEffect(() => {
-		if (!data) return;
-		const stageInfo = getEvolutionStage(data, name);
-		setEvoInfo(stageInfo);
-	}, [data, name]);
-
-	useEffect(() => {
-		if (dailyPokemons.length < 1) return;
-		setDailyPokemon(dailyPokemons[0]);
-	}, [dailyPokemons]);
 
 	const adjustFontSize = (element) => {
 		const textLength = element.textContent.trim().length;
@@ -73,7 +56,8 @@ export const PokemonRow = ({ pokemon }) => {
 		const elements = document.querySelectorAll(".responsive-text");
 		elements.forEach(adjustFontSize);
 	}, [
-		evoInfo,
+		evolution_stage,
+		evolution_trigger,
 		type1,
 		type2,
 		main_color,
@@ -87,65 +71,35 @@ export const PokemonRow = ({ pokemon }) => {
 	]);
 
 	useEffect(() => {
-		if (!dailyPokemon?.id) return;
-
-		const fetchDailyPokemonEvolution = async () => {
-			try {
-				const response = await fetch(
-					`https://poke-backend-tvv2.onrender.com/pokemons/${dailyPokemon.id}/evolution`
-				);
-				const result = await response.json();
-				setDailyPokemonEvoData(result);
-			} catch (error) {
-				console.error("Error fetching daily Pokémon evolution:", error);
-			}
-		};
-
-		fetchDailyPokemonEvolution();
-	}, [dailyPokemon]);
+		if (dailyPokemons.length > 0) {
+			setDailyPokemon(dailyPokemons[0]);
+		}
+	}, [dailyPokemons]);
 
 	useEffect(() => {
-		if (!dailyPokemon || !pokemon || !data || !dailyPokemonEvoData) return;
-
-		const dailyPokemonEvolution = getEvolutionStage(
-			dailyPokemonEvoData,
-			dailyPokemon.name
-		);
-		const dailyPokemonHighestStat = getHighestStat(dailyPokemon.stats);
-
-		const pokemonEvolution = getEvolutionStage(data, pokemon.name);
-		const pokemonHighestStat = getHighestStat(pokemon.stats);
-
-		// Crear los objetos enriquecidos con evolución y stat más alta
-		const enrichedDailyPokemon = {
-			...dailyPokemon,
-			evolutionStage: dailyPokemonEvolution.stage,
-			evolutionTrigger: dailyPokemonEvolution.trigger,
-			highestStat: dailyPokemonHighestStat,
-			generation: getGeneration(dailyPokemon.generation), // Convierte aquí
-		};
+		if (Object.keys(dailyPokemon).length < 1 || !pokemon) return;
 		
-		const enrichedPokemon = {
-			...pokemon,
-			evolutionStage: pokemonEvolution.stage,
-			evolutionTrigger: pokemonEvolution.trigger,
-			highestStat: pokemonHighestStat,
-			generation: getGeneration(pokemon.generation), // Convierte aquí
-		};
-
-		// Comparar atributos y actualizar el estado de resultados
+		const dailyPokemonHighestStat = getHighestStat(dailyPokemon.stats);
 		const comparisonResult = comparePokemonAttributes(
-			enrichedPokemon,
-			enrichedDailyPokemon
+			{
+				...pokemon,
+				highestStat: highest_stat,
+				generation: gen,
+			},
+			{
+				...dailyPokemon,
+				highestStat: dailyPokemonHighestStat,
+				generation: getGeneration(dailyPokemon.generation),
+			}
 		);
 		setComparisonResults(comparisonResult);
-	}, [dailyPokemon, pokemon, data, dailyPokemonEvoData]);
+	}, [dailyPokemon, pokemon]);
 
 	useEffect(() => {
 		if (
-			dailyPokemon === null ||
-			pokemon === null ||
-			comparisonResults === null ||
+			!dailyPokemon ||
+			!pokemon ||
+			!comparisonResults ||
 			Object.keys(comparisonResults).length === 0
 		)
 			return;
@@ -167,204 +121,187 @@ export const PokemonRow = ({ pokemon }) => {
 
 	return (
 		<tr className="text-center border-gray-200">
-			{hasError ? (
-				<td colSpan="13" className="py-2 text-shadow text-red-500">
-					Error al cargar la información
+			<>
+				<td className="py-2 text-shadow">
+					<div className="w-full flex justify-center">
+						<div className="attribute-container bg-white animate__animated animate__zoomIn">
+							<div className="flex justify-center items-center attribute-box shadow-2xl">
+								<img src={front_default} alt={name} />
+							</div>
+						</div>
+					</div>
 				</td>
-			) : isLoading ? (
-				<td colSpan="13" className="py-2 text-shadow">
-					<img
-						src="/pokeball.png"
-						className="animate-spin mx-auto"
-						width="32"
-						height="32"
-					/>
+				<td className="py-2 text-shadow">
+					<div className="w-full flex justify-center">
+						<div className="attribute-container animate__animated animate__zoomIn">
+							<div
+								className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
+									"type1",
+									comparisonResults
+								)}`}>
+								<p className="responsive-text">{type1}</p>
+							</div>
+						</div>
+					</div>
 				</td>
-			) : (
-				<>
-					<td className="py-2 text-shadow">
-						<div className="w-full flex justify-center">
-							<div className="attribute-container bg-white animate__animated animate__zoomIn">
-								<div className="flex justify-center items-center attribute-box shadow-2xl">
-									<img src={front_default} alt={name} />
-								</div>
+				<td className="py-2 text-shadow">
+					<div className="w-full flex justify-center">
+						<div className="attribute-container animate__animated animate__zoomIn">
+							<div
+								className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
+									"type2",
+									comparisonResults
+								)}`}>
+								<p className="responsive-text">{type2}</p>
 							</div>
 						</div>
-					</td>
-					<td className="py-2 text-shadow">
-						<div className="w-full flex justify-center">
-							<div className="attribute-container animate__animated animate__zoomIn">
-								<div
-									className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
-										"type1",
-										comparisonResults
-									)}`}>
-									<p className="responsive-text">{type1}</p>
-								</div>
+					</div>
+				</td>
+				<td className="py-2 text-shadow">
+					<div className="w-full flex justify-center">
+						<div className="attribute-container animate__animated animate__zoomIn">
+							<div
+								className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
+									"mainColor",
+									comparisonResults
+								)}`}>
+								<p className="responsive-text">{main_color}</p>
 							</div>
 						</div>
-					</td>
-					<td className="py-2 text-shadow">
-						<div className="w-full flex justify-center">
-							<div className="attribute-container animate__animated animate__zoomIn">
-								<div
-									className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
-										"type2",
-										comparisonResults
-									)}`}>
-									<p className="responsive-text">{type2}</p>
-								</div>
+					</div>
+				</td>
+				<td className="py-2 text-shadow">
+					<div className="w-full flex justify-center">
+						<div className="attribute-container animate__animated animate__zoomIn">
+							<div
+								className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
+									"evolutionStage",
+									comparisonResults
+								)}`}>
+								<p className="responsive-text">
+									{evolution_stage}
+								</p>
 							</div>
 						</div>
-					</td>
-					<td className="py-2 text-shadow">
-						<div className="w-full flex justify-center">
-							<div className="attribute-container animate__animated animate__zoomIn">
-								<div
-									className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
-										"mainColor",
-										comparisonResults
-									)}`}>
-									<p className="responsive-text">
-										{main_color}
-									</p>
-								</div>
+					</div>
+				</td>
+				<td className="py-2 text-shadow">
+					<div className="w-full flex justify-center">
+						<div className="attribute-container animate__animated animate__zoomIn">
+							<div
+								className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
+									"evolutionTrigger",
+									comparisonResults
+								)}`}>
+								<p className="responsive-text">
+									{evolution_trigger}
+								</p>
 							</div>
 						</div>
-					</td>
-					<td className="py-2 text-shadow">
-						<div className="w-full flex justify-center">
-							<div className="attribute-container animate__animated animate__zoomIn">
-								<div
-									className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
-										"evolutionStage",
-										comparisonResults
-									)}`}>
-									<p className="responsive-text">
-										{evoInfo.stage}
-									</p>
-								</div>
+					</div>
+				</td>
+				<td className="py-2 text-shadow">
+					<div className="w-full flex justify-center">
+						<div className="attribute-container animate__animated animate__zoomIn ">
+							<div
+								className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
+									"ability",
+									comparisonResults
+								)}`}>
+								<p className="responsive-text">
+									{abilities[0]}
+								</p>
 							</div>
 						</div>
-					</td>
-					<td className="py-2 text-shadow">
-						<div className="w-full flex justify-center">
-							<div className="attribute-container animate__animated animate__zoomIn">
-								<div
-									className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
-										"evolutionTrigger",
-										comparisonResults
-									)}`}>
-									<p className="responsive-text">
-										{evoInfo.trigger}
-									</p>
-								</div>
+					</div>
+				</td>
+				<td className="py-2 text-shadow">
+					<div className="w-full flex justify-center">
+						<div className="attribute-container animate__animated animate__zoomIn">
+							<div
+								className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
+									"highestStat",
+									comparisonResults
+								)}`}>
+								<p className="responsive-text">
+									{highest_stat}
+								</p>
 							</div>
 						</div>
-					</td>
-					<td className="py-2 text-shadow">
-						<div className="w-full flex justify-center">
-							<div className="attribute-container animate__animated animate__zoomIn ">
-								<div
-									className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
-										"ability",
-										comparisonResults
-									)}`}>
-									<p className="responsive-text">
-										{abilities[0]}
-									</p>
-								</div>
+					</div>
+				</td>
+				<td className="py-2 text-shadow">
+					<div className="w-full flex justify-center">
+						<div className="attribute-container animate__animated animate__zoomIn">
+							<div
+								className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
+									"generation",
+									comparisonResults
+								)}`}>
+								<p className="responsive-text">{gen}</p>
 							</div>
 						</div>
-					</td>
-					<td className="py-2 text-shadow">
-						<div className="w-full flex justify-center">
-							<div className="attribute-container animate__animated animate__zoomIn">
-								<div
-									className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
-										"highestStat",
-										comparisonResults
-									)}`}>
-									<p className="responsive-text">
-										{highest_stat}
-									</p>
-								</div>
+					</div>
+				</td>
+				<td className="py-2 text-shadow">
+					<div className="w-full flex justify-center">
+						<div className="attribute-container animate__animated animate__zoomIn">
+							<div
+								className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
+									"captureRate",
+									comparisonResults
+								)}`}>
+								<p className="responsive-text">
+									{capture_rate}
+								</p>
 							</div>
 						</div>
-					</td>
-					<td className="py-2 text-shadow">
-						<div className="w-full flex justify-center">
-							<div className="attribute-container animate__animated animate__zoomIn">
-								<div
-									className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
-										"generation",
-										comparisonResults
-									)}`}>
-									<p className="responsive-text">{gen}</p>
-								</div>
+					</div>
+				</td>
+				<td className="py-2 text-shadow">
+					<div className="w-full flex justify-center">
+						<div className="attribute-container animate__animated animate__zoomIn">
+							<div
+								className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
+									"habitat",
+									comparisonResults
+								)}`}>
+								<p className="responsive-text">{habitat}</p>
 							</div>
 						</div>
-					</td>
-					<td className="py-2 text-shadow">
-						<div className="w-full flex justify-center">
-							<div className="attribute-container animate__animated animate__zoomIn">
-								<div
-									className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
-										"captureRate",
-										comparisonResults
-									)}`}>
-									<p className="responsive-text">
-										{capture_rate}
-									</p>
-								</div>
+					</div>
+				</td>
+				<td className="normal-case py-2 text-shadow">
+					<div className="w-full flex justify-center">
+						<div className="attribute-container animate__animated animate__zoomIn">
+							<div
+								className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
+									"height",
+									comparisonResults
+								)}`}>
+								<p className="responsive-text normal-case">
+									{height / 10}m
+								</p>
 							</div>
 						</div>
-					</td>
-					<td className="py-2 text-shadow">
-						<div className="w-full flex justify-center">
-							<div className="attribute-container animate__animated animate__zoomIn">
-								<div
-									className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
-										"habitat",
-										comparisonResults
-									)}`}>
-									<p className="responsive-text">{habitat}</p>
-								</div>
+					</div>
+				</td>
+				<td className="normal-case py-2 text-shadow">
+					<div className="w-full flex justify-center">
+						<div className="attribute-container animate__animated animate__zoomIn">
+							<div
+								className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
+									"weight",
+									comparisonResults
+								)}`}>
+								<p className="responsive-text normal-case">
+									{weight / 10}kg
+								</p>
 							</div>
 						</div>
-					</td>
-					<td className="normal-case py-2 text-shadow">
-						<div className="w-full flex justify-center">
-							<div className="attribute-container animate__animated animate__zoomIn">
-								<div
-									className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
-										"height",
-										comparisonResults
-									)}`}>
-									<p className="responsive-text normal-case">
-										{height / 10}m
-									</p>
-								</div>
-							</div>
-						</div>
-					</td>
-					<td className="normal-case py-2 text-shadow">
-						<div className="w-full flex justify-center">
-							<div className="attribute-container animate__animated animate__zoomIn">
-								<div
-									className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
-										"weight",
-										comparisonResults
-									)}`}>
-									<p className="responsive-text normal-case">
-										{weight / 10}kg
-									</p>
-								</div>
-							</div>
-						</div>
-					</td>
-				</>
-			)}
+					</div>
+				</td>
+			</>
 		</tr>
 	);
 };

@@ -6,9 +6,11 @@ const PokemonContext = createContext();
 // Provider para envolver la app
 export const PokemonProvider = ({ children }) => {
 	const [dailyPokemons, setDailyPokemons] = useState([]);
-	const [isClassicPokemonGuessed, setIsClassicPokemonGuessed] = useState(false);
+	const [isClassicPokemonGuessed, setIsClassicPokemonGuessed] =
+		useState(false);
 	const [isCriesPokemonGuessed, setIsCriesPokemonGuessed] = useState(false);
-	const [isSilouettePokemonGuessed, setIsSilouettePokemonGuessed] = useState(false);
+	const [isSilouettePokemonGuessed, setIsSilouettePokemonGuessed] =
+		useState(false);
 
 	useEffect(() => {
 		const fetchDailyPokemons = async () => {
