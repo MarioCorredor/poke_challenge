@@ -9,3 +9,9 @@
 .outer-container {
     background-color: #797979;
 }
+
+.pokeball {
+    top: 0px;
+    bottom: 0px;
+    left: 92px;
+}

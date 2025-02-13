@@ -6,8 +6,8 @@ export const PokemonTable = ({ pokemons = [] }) => {
 	return (
 		<>
 			<div className="background-grid h-[330px] overflow-auto border-2">
-				<table className="table-fixed border-collapse w-full capitalize text-white">
-					{ (
+				{pokemons.length > 0 ? (
+					<table className="table-fixed border-collapse w-full capitalize text-white">
 						<thead>
 							<tr className="text-center text-shadow">
 								<th className="py-1 text-center text-shadow">
@@ -155,18 +155,24 @@ export const PokemonTable = ({ pokemons = [] }) => {
 								</th>
 							</tr>
 						</thead>
-					)}
-					<tbody>
-						{pokemons
-							.map((pokemon) => (
-								<PokemonRow
-									key={pokemon.id}
-									pokemon={pokemon}
-								/>
-							))
-							.reverse()}
-					</tbody>
-				</table>
+						<tbody>
+							{pokemons
+								.map((pokemon) => (
+									<PokemonRow
+										key={pokemon.id}
+										pokemon={pokemon}
+									/>
+								))
+								.reverse()}
+						</tbody>
+					</table>
+				) : (
+					<div className="flex w-full h-full justify-center items-center text-white">
+						<p className="text-center">
+							Start guessing pokémons!
+						</p>
+					</div>
+				)}
 			</div>
 		</>
 	);

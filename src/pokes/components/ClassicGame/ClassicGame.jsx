@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { getPokemon } from "../../../helpers";
+import { getPokemon, getCountdown } from "../../../helpers";
 import { PokemonTable, SearchBar } from "..";
 import { usePokemon } from "../../../contexts";
+import { NextGameCard } from "../elements";
 import "./ClassicGame.css";
+import "animate.css";
 
 export const ClassicGame = () => {
 	const {
@@ -11,6 +13,8 @@ export const ClassicGame = () => {
 		setIsClassicPokemonGuessed,
 	} = usePokemon();
 	const [dailyPokemon, setDailyPokemon] = useState({});
+
+	const [timeLeft, setTimeLeft] = useState("");
 
 	const [pokemons, setPokemons] = useState(
 		JSON.parse(localStorage.getItem("classicPokemons")) || []
@@ -41,6 +45,11 @@ export const ClassicGame = () => {
 		}
 	}, [dailyPokemons]);
 
+	useEffect(() => {
+		const clearCountdown = getCountdown(setTimeLeft);
+		return () => clearCountdown();
+	}, []);
+
 	const saveToLocalStorage = (newPokemons) => {
 		localStorage.setItem("classicPokemons", JSON.stringify(newPokemons));
 	};
@@ -63,7 +72,7 @@ export const ClassicGame = () => {
 	return (
 		<>
 			<div className="flex flex-col items-center w-full">
-				<div className="flex outer-container w-[950px] justify-center py-2 border-2">
+				<div className="flex outer-container w-[950px] justify-center py-2 border-2 rounded relative h-full">
 					<div>
 						<h2 className="text-center text-white">Classic Mode</h2>
 						<div className="flex justify-center gap-6 py-2">
@@ -84,7 +93,7 @@ export const ClassicGame = () => {
 						)}
 
 						<div>
-							<div className="border-2 p-2 middle-container">
+							<div className="border-2 p-2 middle-container rounded-t-sm">
 								<div className="py-3 inner-container border-1 flex justify-center flex-col">
 									<div className="flex gap-6 justify-center items-center pb-2">
 										<div className="h-[10px] w-[20px] bg-green-500"></div>
@@ -111,30 +120,58 @@ export const ClassicGame = () => {
 									</div>
 								</div>
 							</div>
-							{isClassicPokemonGuessed && (
-								<div className="border-2 pb-2 pt-4 px-2 middle-container">
-									<div className="border-1 inner-container p-4 flex flex-col">
-										<p className="text-white">
-											Congratulations, you guessed today's
-											pokémon!
-										</p>
-										<div className="w-full">
-											<div>
-												<div className="attribute-container bg-white animate__animated animate__zoomIn">
-													<div className="flex justify-center items-center attribute-box">
-														{/* <img src={ dailyPokemon.sprites.front_default }
-																alt={dailyPokemon.name}/> */}
+							{isClassicPokemonGuessed &&
+								Object.keys(dailyPokemon).length > 0 && (
+									<div className="border-2 pb-2 pt-4 px-2 middle-container animate__animated animate__fadeInUp">
+										<div className="border-1 inner-container p-4 flex gap-8">
+											<div className="w-1/2 flex flex-col p-3 text-white border-2 rounded-tr-3xl rounded-tl-lg rounded-b-lg bg-green-700 animate__animated animate__tada">
+												<p className="mb-2">Gotcha!</p>
+												<div className="flex gap-6">
+													<div className="border-2 border-white rounded-2xl bg-white">
+														<img
+															src={
+																dailyPokemon
+																	.sprites
+																	.front_default
+															}
+															height="128"
+															width="128"
+														/>
+													</div>
+													<div className="flex flex-col">
+														<p className="capitalize !text-lg pb-4">
+															{dailyPokemon.name}
+														</p>
+														<p>
+															Attempts:{" "}
+															{pokemons.length}
+														</p>
 													</div>
 												</div>
-												<div></div>
 											</div>
-											<div></div>
+											<div className="w-1/2 text-white flex px-4 pt-4 flex-col">
+												<p className="text-white !text-lg">
+													Next pokémon in:
+												</p>
+												<div className="my-2 flex gap-4">
+													<p className="!text-[16px]">
+														{timeLeft}
+													</p>
+													<p className="text-gray-400 !text-[8px] self-center pt-2">
+														Time zone: Europe (00:00
+														UTC+2)
+													</p>
+												</div>
+												<NextGameCard mode={1} />
+											</div>
 										</div>
 									</div>
-								</div>
-							)}
+								)}
 						</div>
 					</div>
+					{/* <div className="h-[700px]">
+						<img src="/red_ball.png" className="absolute pokeball overflow-hidden"/>
+					</div> */}
 				</div>
 			</div>
 		</>

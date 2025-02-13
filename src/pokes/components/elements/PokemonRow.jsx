@@ -78,7 +78,7 @@ export const PokemonRow = ({ pokemon }) => {
 
 	useEffect(() => {
 		if (Object.keys(dailyPokemon).length < 1 || !pokemon) return;
-		
+
 		const dailyPokemonHighestStat = getHighestStat(dailyPokemon.stats);
 		const comparisonResult = comparePokemonAttributes(
 			{
@@ -120,8 +120,8 @@ export const PokemonRow = ({ pokemon }) => {
 	}, [pokemon, dailyPokemon, comparisonResults]);
 
 	return (
-		<tr className="text-center border-gray-200">
-			<>
+		<>
+			<tr className="text-center border-gray-200">
 				<td className="py-2 text-shadow">
 					<div className="w-full flex justify-center">
 						<div className="attribute-container bg-white animate__animated animate__zoomIn">
@@ -301,7 +301,7 @@ export const PokemonRow = ({ pokemon }) => {
 						</div>
 					</div>
 				</td>
-			</>
-		</tr>
+			</tr>
+		</>
 	);
 };
