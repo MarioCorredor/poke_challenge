@@ -10,8 +10,6 @@
     background-color: #797979;
 }
 
-.pokeball {
-    top: 0px;
-    bottom: 0px;
-    left: 92px;
+.bg-grid-white {
+    background: url("/src/assets/white-bg-grid.png");
 }

@@ -72,7 +72,7 @@ export const ClassicGame = () => {
 	return (
 		<>
 			<div className="flex flex-col items-center w-full">
-				<div className="flex outer-container w-[950px] justify-center py-2 border-2 rounded relative h-full">
+				<div className="flex outer-container w-[950px] justify-center py-2 border-2 rounded">
 					<div>
 						<h2 className="text-center text-white">Classic Mode</h2>
 						<div className="flex justify-center gap-6 py-2">
@@ -122,12 +122,12 @@ export const ClassicGame = () => {
 							</div>
 							{isClassicPokemonGuessed &&
 								Object.keys(dailyPokemon).length > 0 && (
-									<div className="border-2 pb-2 pt-4 px-2 middle-container animate__animated animate__fadeInUp">
+									<div className="border-2 pb-2 pt-4 px-2 rounded-b-sm middle-container animate__animated animate__fadeInUp">
 										<div className="border-1 inner-container p-4 flex gap-8">
 											<div className="w-1/2 flex flex-col p-3 text-white border-2 rounded-tr-3xl rounded-tl-lg rounded-b-lg bg-green-700 animate__animated animate__tada">
 												<p className="mb-2">Gotcha!</p>
 												<div className="flex gap-6">
-													<div className="border-2 border-white rounded-2xl bg-white">
+													<div className="border-2 border-white rounded-2xl bg-grid-white">
 														<img
 															src={
 																dailyPokemon
@@ -169,9 +169,6 @@ export const ClassicGame = () => {
 								)}
 						</div>
 					</div>
-					{/* <div className="h-[700px]">
-						<img src="/red_ball.png" className="absolute pokeball overflow-hidden"/>
-					</div> */}
 				</div>
 			</div>
 		</>
