@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getPokemon, getCountdown } from "../../../helpers";
+import { getPokemon, getCountdown, decryptData, encryptData } from "../../../helpers";
 import { PokemonTable, SearchBar } from "..";
 import { usePokemon } from "../../../contexts";
 import { NextGameCard } from "../elements";
@@ -21,7 +21,7 @@ export const ClassicGame = () => {
 	);
 
 	useEffect(() => {
-		const storedDailyPokemon = JSON.parse(
+		const storedDailyPokemon = decryptData(
 			localStorage.getItem("dailyClassicPokemon")
 		);
 
@@ -34,7 +34,7 @@ export const ClassicGame = () => {
 			) {
 				localStorage.setItem(
 					"dailyClassicPokemon",
-					JSON.stringify(newDailyPokemon)
+					encryptData(newDailyPokemon)
 				);
 				localStorage.removeItem("classicPokemons");
 				setPokemons([]);
@@ -122,12 +122,12 @@ export const ClassicGame = () => {
 							</div>
 							{isClassicPokemonGuessed &&
 								Object.keys(dailyPokemon).length > 0 && (
-									<div className="border-2 pb-2 pt-4 px-2 rounded-b-sm middle-container animate__animated animate__fadeInUp">
+									<div className="border-2 pb-2 pt-4 px-2 rounded-b-sm middle-container">
 										<div className="border-1 inner-container p-4 flex gap-8">
-											<div className="w-1/2 flex flex-col p-3 text-white border-2 rounded-tr-3xl rounded-tl-lg rounded-b-lg bg-green-700 animate__animated animate__tada">
-												<p className="mb-2">Gotcha!</p>
+											<div className="w-1/2 flex flex-col p-3 border-3 text-shadow border-[#2C6344] rounded-tr-3xl rounded-tl-lg rounded-b-lg bg-[#5ECD8E] animate__animated animate__tada">
+												<p className="mb-2 text-white">Gotcha!</p>
 												<div className="flex gap-6">
-													<div className="border-2 border-white rounded-2xl bg-grid-white">
+													<div className="border-4 border-[#4B4B4B] rounded-2xl bg-grid-white">
 														<img
 															src={
 																dailyPokemon
@@ -139,10 +139,10 @@ export const ClassicGame = () => {
 														/>
 													</div>
 													<div className="flex flex-col">
-														<p className="capitalize !text-lg pb-4">
+														<p className="capitalize !text-lg pb-4 text-[#4B4B4B]">
 															{dailyPokemon.name}
 														</p>
-														<p>
+														<p className="text-[#42855F]">
 															Attempts:{" "}
 															{pokemons.length}
 														</p>

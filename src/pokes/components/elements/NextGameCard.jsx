@@ -1,11 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router";
+import "./NextGameCard.css"
 
 export const NextGameCard = ({ mode }) => {
 	const modes = {
 		1: {
 			title: "Cries Mode",
-			image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/441.png",
+			image: "/chatot-icon.svg",
 			description: "Guess the pokémon by hearing its cry!",
 		},
 		2: {
@@ -20,36 +21,46 @@ export const NextGameCard = ({ mode }) => {
 		},
 	};
 
-    const navigate = useNavigate(); 
+	const navigate = useNavigate();
 
-    const handleClick = () => {
-        console.log(mode)
-        switch (mode) {
-            case 1:
-                navigate("/cries");
-                break;
-            case 2:
-                navigate("/silouette");
-                break;
-            case 3:
-                navigate("/classic");
-                break;
-            default:
-                navigate("/");
-                break;
-        }
-    }
+	const handleClick = () => {
+		console.log(mode);
+		switch (mode) {
+			case 1:
+				navigate("/cries");
+				break;
+			case 2:
+				navigate("/silouette");
+				break;
+			case 3:
+				navigate("/classic");
+				break;
+			default:
+				navigate("/");
+				break;
+		}
+	};
 
 	const { title, image, description } = modes[mode] || {};
 
 	return (
-		<div className="flex flex-col p-4 border-2 rounded-lg bg-gray-800 text-white menu-item cursor-pointer select-none" onClick={handleClick}>
-			<p className="!text-[14px] font-bold">{title}</p>
-			<div className="flex">
-				<div className="flex items-center justify-center w-[50px] h-[50px] overflow-hidden"> 
-					<img src={image} alt={title} height="64" width="64" className="max-w-none" />
-				</div>
-				<p className="!text-[8px] text-center self-center">{description}</p>
+		<div
+			className="flex p-4 border-4 rounded-lg text-white next-card cursor-pointer select-none"
+			onClick={handleClick}>
+			<div className="flex items-center justify-center pr-4">
+				<img
+					src={image}
+					alt={title}
+					height="64"
+					width="64"
+					className="max-w-none"
+				/>
+			</div>
+			<div className="flex flex-col">
+				<p className="!text-[14px] font-bold">{title}</p>
+				<p className="!text-[8px] self-center mt-2">
+					{description}
+				</p>
 			</div>
 		</div>
 	);

@@ -13,3 +13,7 @@
 .bg-grid-white {
     background: url("/src/assets/white-bg-grid.png");
 }
+
+.text-shadow {
+	text-shadow: 1px 1px #000000;
+}

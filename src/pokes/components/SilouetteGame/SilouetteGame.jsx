@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { usePokemon } from "../../../contexts";
 import { PokemonListCard, SearchBar } from "..";
-import { getPokemon } from "../../../helpers";
+import { decryptData, encryptData, getPokemon } from "../../../helpers";
 
 export const SilouetteGame = () => {
-	const { dailyPokemons, isSilouettePokemonGuessed, setIsSilouettePokemonGuessed } = usePokemon();
+	const {
+		dailyPokemons,
+		isSilouettePokemonGuessed,
+		setIsSilouettePokemonGuessed,
+	} = usePokemon();
 	const [dailyPokemon, setDailyPokemon] = useState({});
-
 	const [pokemons, setPokemons] = useState(
 		JSON.parse(localStorage.getItem("silouettePokemons")) || []
 	);
@@ -16,12 +19,13 @@ export const SilouetteGame = () => {
 	const [transformOrigin, setTransformOrigin] = useState("center center");
 
 	useEffect(() => {
-		const storedDailyPokemon = JSON.parse(
+		const storedDailyPokemon = decryptData(
 			localStorage.getItem("dailySilouettePokemon")
 		);
 
 		if (dailyPokemons.length > 2) {
 			const newDailyPokemon = dailyPokemons[2];
+			setDailyPokemon(newDailyPokemon);
 
 			if (
 				!storedDailyPokemon ||
@@ -29,19 +33,48 @@ export const SilouetteGame = () => {
 			) {
 				localStorage.setItem(
 					"dailySilouettePokemon",
-					JSON.stringify(newDailyPokemon)
+					encryptData(newDailyPokemon)
 				);
 				localStorage.removeItem("silouettePokemons");
+				localStorage.removeItem("silouetteSeed");
+				localStorage.removeItem("silouetteAttempts");
+				localStorage.removeItem("silouetteGuessed"); // Resetear cuando cambie el Pokémon
 				setPokemons([]);
 			}
 
-			setDailyPokemon(newDailyPokemon);
 			setIsSilouettePokemonGuessed(false);
-		}
 
-		const randomX = 30 + Math.random() * 40;
-		const randomY = 30 + Math.random() * 40;
-		setTransformOrigin(`${randomX}% ${randomY}%`);
+			let seed = JSON.parse(localStorage.getItem("silouetteSeed"));
+			if (!seed || seed.id !== newDailyPokemon.id) {
+				seed = {
+					id: newDailyPokemon.id,
+					randomX: 30 + Math.random() * 40,
+					randomY: 30 + Math.random() * 40,
+					initialBlur: 5,
+					initialZoom: 3.9,
+				};
+				localStorage.setItem("silouetteSeed", JSON.stringify(seed));
+			}
+
+			setTransformOrigin(`${seed.randomX}% ${seed.randomY}%`);
+
+			// Verificar si el usuario ya adivinó el Pokémon
+			const guessed = localStorage.getItem("silouetteGuessed") === "true";
+			if (guessed) {
+				setBlurIntensity(0);
+				setZoomLevel(1);
+				setIsSilouettePokemonGuessed(true);
+			} else {
+				const storedAttempts =
+					JSON.parse(localStorage.getItem("silouetteAttempts")) || 0;
+				setBlurIntensity(
+					Math.max(seed.initialBlur - storedAttempts * 0.5, 2)
+				);
+				setZoomLevel(
+					Math.max(seed.initialZoom - storedAttempts * 0.3, 2)
+				);
+			}
+		}
 	}, [dailyPokemons]);
 
 	const handleSelectPokemon = async (name) => {
@@ -57,8 +90,25 @@ export const SilouetteGame = () => {
 			setPokemons(newPokemons);
 			saveToLocalStorage(newPokemons);
 
-			setBlurIntensity((prev) => Math.max(prev - 0.5, 2));
-			setZoomLevel((prev) => Math.max(prev - 0.3, 2));
+			// Si el Pokémon seleccionado es el correcto
+			if (pokemonData.some((p) => p.id === dailyPokemon.id)) {
+				setBlurIntensity(0);
+				setZoomLevel(1); // O 1 si quieres el tamaño normal
+				localStorage.setItem("silouetteGuessed", "true"); // Guardar que ya ha sido adivinado
+				setIsSilouettePokemonGuessed(true);
+			} else {
+				// Incrementar intentos y reducir blur/zoom si sigue fallando
+				const newAttempts =
+					(JSON.parse(localStorage.getItem("silouetteAttempts")) ||
+						0) + 1;
+				localStorage.setItem(
+					"silouetteAttempts",
+					JSON.stringify(newAttempts)
+				);
+
+				setBlurIntensity((prev) => Math.max(prev - 0.5, 2));
+				setZoomLevel((prev) => Math.max(prev - 0.3, 2));
+			}
 		}
 	};
 

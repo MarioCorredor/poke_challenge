@@ -2,18 +2,18 @@ import React, { useEffect, useState } from "react";
 import { CustomAudioPlayer } from "../CustomComponents";
 import { usePokemon } from "../../../contexts";
 import { SearchBar, PokemonListCard } from "../elements";
-import { getPokemon } from "../../../helpers";
+import { decryptData, encryptData, getPokemon } from "../../../helpers";
 
 export const CriesGame = () => {
 	const { dailyPokemons, isCriesPokemonGuessed, setIsCriesPokemonGuessed } = usePokemon();
 	const [dailyPokemon, setDailyPokemon] = useState({});
 
 	const [pokemons, setPokemons] = useState(
-		JSON.parse(localStorage.getItem("criesPokemons")) || []
-	);
+			JSON.parse(localStorage.getItem("criesPokemons")) || []
+		);
 
 	useEffect(() => {
-		const storedDailyPokemon = JSON.parse(
+		const storedDailyPokemon = decryptData(
 			localStorage.getItem("dailyCriesPokemon")
 		);
 
@@ -26,7 +26,7 @@ export const CriesGame = () => {
 			) {
 				localStorage.setItem(
 					"dailyCriesPokemon",
-					JSON.stringify(newDailyPokemon)
+					encryptData(newDailyPokemon)
 				);
 				localStorage.removeItem("criesPokemons");
 				setPokemons([]);
