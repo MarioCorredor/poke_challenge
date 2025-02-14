@@ -175,7 +175,7 @@ export const PokemonRow = ({ pokemon }) => {
 						<div className="attribute-container animate__animated animate__zoomIn">
 							<div
 								className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
-									"evolutionStage",
+									"evolution_stage",
 									comparisonResults
 								)}`}>
 								<p className="responsive-text">
@@ -190,7 +190,7 @@ export const PokemonRow = ({ pokemon }) => {
 						<div className="attribute-container animate__animated animate__zoomIn">
 							<div
 								className={`flex justify-center items-center attribute-box shadow-2xl ${getBgColor(
-									"evolutionTrigger",
+									"evolution_trigger",
 									comparisonResults
 								)}`}>
 								<p className="responsive-text">

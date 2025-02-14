@@ -22,8 +22,8 @@ export const comparePokemonAttributes = (pokemon, dailyPokemon) => {
 		habitat: dailyPokemon.habitat === pokemon.habitat,
 		height: compareNumeric(dailyPokemon.height, pokemon.height),
 		weight: compareNumeric(dailyPokemon.weight, pokemon.weight),
-		evolutionStage: compareNumeric(dailyPokemon.evolutionStage, pokemon.evolutionStage),
-		evolutionTrigger:
-		dailyPokemon.evolutionTrigger === pokemon.evolutionTrigger,
+		evolution_stage: compareNumeric(dailyPokemon.evolution_stage, pokemon.evolution_stage),
+		evolution_trigger:
+		dailyPokemon.evolution_trigger === pokemon.evolution_trigger,
 	};
 };
