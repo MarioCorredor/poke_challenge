@@ -1,6 +1,9 @@
 import CryptoJS from "crypto-js";
+import dotenv from "dotenv";
 
-const SECRET_KEY = "9YS5a5vWZbJPZkFWK5pAYdESrdaUyyHz";
+dotenv.config();
+
+const SECRET_KEY = process.env.SECRET_KEY;
 
 export const encryptData = (data) => {
     const encrypted = CryptoJS.AES.encrypt(JSON.stringify(data), SECRET_KEY).toString();
