@@ -13,7 +13,7 @@ export const Header = () => {
 		<>
 			<div className="flex justify-center w-full mt-[1rem] mb-[2rem]">
 				<div onClick={handleClick} className="header-div cursor-pointer">
-					<p className="header-title select-none">PokéChallenges</p>
+					<img className="header-title select-none" src="/PokeGuess.svg" alt="PokeGuess" />
 				</div>
 			</div>
 		</>

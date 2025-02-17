@@ -9,16 +9,40 @@ import "animate.css";
 export const ClassicGame = () => {
 	const {
 		dailyPokemons,
+		yesterdayPokemons,
 		isClassicPokemonGuessed,
 		setIsClassicPokemonGuessed,
 	} = usePokemon();
 	const [dailyPokemon, setDailyPokemon] = useState({});
+	const [yesterdayPokemon, setYesterdayPokemon] = useState({});
 
 	const [timeLeft, setTimeLeft] = useState("");
 
 	const [pokemons, setPokemons] = useState(
 		JSON.parse(localStorage.getItem("classicPokemons")) || []
 	);
+
+	useEffect(() => {
+		const storedYesterdayPokemon = decryptData(
+			localStorage.getItem("yesterdayClassicPokemon")
+		);
+
+		if (yesterdayPokemons.length > 0) {
+			const yesterdayDailyPokemon = yesterdayPokemons[0];
+
+			if (
+				!storedYesterdayPokemon ||
+				storedYesterdayPokemon.id !== yesterdayDailyPokemon.id
+			) {
+				localStorage.setItem(
+					"yesterdayClassicPokemon",
+					encryptData(yesterdayDailyPokemon)
+				);
+			}
+
+			setYesterdayPokemon(yesterdayDailyPokemon);
+		}
+	}, [yesterdayPokemons]);
 
 	useEffect(() => {
 		const storedDailyPokemon = decryptData(
@@ -74,7 +98,6 @@ export const ClassicGame = () => {
 			<div className="flex flex-col items-center w-full">
 				<div className="flex outer-container w-[950px] justify-center py-2 border-2 rounded">
 					<div>
-						<h2 className="text-center text-white">Classic Mode</h2>
 						<div className="flex justify-center gap-6 py-2">
 							<div className="rounded-md w-[20px] h-[20px] bg-gray-300"></div>
 							<div className="rounded-md w-[20px] h-[20px] bg-gray-300"></div>
@@ -124,10 +147,10 @@ export const ClassicGame = () => {
 								Object.keys(dailyPokemon).length > 0 && (
 									<div className="border-2 pb-2 pt-4 px-2 rounded-b-sm middle-container">
 										<div className="border-1 inner-container p-4 flex gap-8">
-											<div className="w-1/2 flex flex-col p-3 border-3 text-shadow border-[#2C6344] rounded-tr-3xl rounded-tl-lg rounded-b-lg bg-[#5ECD8E] animate__animated animate__tada">
-												<p className="mb-2 text-white">Gotcha!</p>
+											<div className="w-1/2 flex flex-col p-3 border-3 border-[#2C6344] rounded-tr-3xl rounded-tl-lg rounded-b-lg bg-[#5ECD8E] animate__animated animate__tada">
+												<p className="mb-2 text-white text-shadow">Gotcha!</p>
 												<div className="flex gap-6">
-													<div className="border-4 border-[#4B4B4B] rounded-2xl bg-grid-white">
+													<div className="border-4 border-[#333333] rounded-2xl bg-grid-white">
 														<img
 															src={
 																dailyPokemon
@@ -139,17 +162,26 @@ export const ClassicGame = () => {
 														/>
 													</div>
 													<div className="flex flex-col">
-														<p className="capitalize !text-lg pb-4 text-[#4B4B4B]">
+														<p className="capitalize !text-lg text-[#333333] text-shadow">
 															{dailyPokemon.name}
 														</p>
-														<p className="text-[#42855F]">
+														<p className="capitalize pb-1 text-[#333333]">
+															#{dailyPokemon.speciesId}
+														</p>
+														<p className="text-[#42855F] pb-4 text-shadow">
 															Attempts:{" "}
 															{pokemons.length}
+														</p>
+														<p className="text-gray-500 pb-2 !text-[10px] text-shadow">
+															Yesterday pokémon was:
+														</p>
+														<p className="capitalize text-gray-500 text-shadow">
+															{yesterdayPokemon.name} #{yesterdayPokemon.speciesId}
 														</p>
 													</div>
 												</div>
 											</div>
-											<div className="w-1/2 text-white flex px-4 pt-4 flex-col">
+											<div className="w-1/2 text-white flex px-4 pt-4 flex-col text-shadow">
 												<p className="text-white !text-lg">
 													Next pokémon in:
 												</p>
