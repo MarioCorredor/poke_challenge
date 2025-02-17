@@ -32,19 +32,19 @@ export const CustomAudioPlayer = ({ src }) => {
 	return (
 		<div className="audio-player">
 			<audio ref={audioRef} src={src} onEnded={handleAudioEnded} />
-			<button className="play-btn" onClick={togglePlay}>
-				{isPlaying ? "⏸️" : "▶️"}
-			</button>
+			<input
+				type="range"
+				min="0"
+				max="1"
+				step="0.01"
+				value={volume}
+				onChange={handleVolumeChange}
+			/>
 			<div className="volume-control">
+				<button className="play-btn" onClick={togglePlay}>
+					{isPlaying ? "⏸️" : "▶️"}
+				</button>
 				🔊
-				<input
-					type="range"
-					min="0"
-					max="1"
-					step="0.01"
-					value={volume}
-					onChange={handleVolumeChange}
-				/>
 			</div>
 		</div>
 	);

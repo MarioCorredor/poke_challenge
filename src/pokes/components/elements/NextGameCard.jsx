@@ -24,7 +24,6 @@ export const NextGameCard = ({ mode }) => {
 	const navigate = useNavigate();
 
 	const handleClick = () => {
-		console.log(mode);
 		switch (mode) {
 			case 1:
 				navigate("/cries");

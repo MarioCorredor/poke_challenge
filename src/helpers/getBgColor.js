@@ -13,18 +13,18 @@ export const getBgColor = (attribute, comparisonResults) => {
 		comparisonResults[attribute] === true ||
 		comparisonResults[attribute] === "equal"
 	) {
-		return "bg-green-500";
+		return "bg-[#5ECD8E] border-[#2C6344]";
 	}
 	if (comparisonResults[attribute] === false) {
-		return "bg-red-500";
+		return "bg-[#DC0A2D] border-[#740417]";
 	}
 
 	if (comparisonResults[attribute] === "greater") {
-		return "bg-red-500 arrow-up";
+		return "bg-[#DC0A2D] border-[#740417] arrow-up";
 	}
 
 	if (comparisonResults[attribute] === "less") {
-		return "bg-red-500 arrow-down";
+		return "bg-[#DC0A2D] border-[#740417] arrow-down";
 	}
 
 	return "bg-transparent";

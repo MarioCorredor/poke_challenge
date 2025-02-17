@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { usePokemon } from "../../../contexts";
 import { PokemonListCard, SearchBar } from "..";
 import { decryptData, encryptData, getPokemon } from "../../../helpers";
+import "./SilouetteGame.css"
 
 export const SilouetteGame = () => {
 	const {
@@ -121,7 +122,7 @@ export const SilouetteGame = () => {
 			{dailyPokemon !== null ? (
 				<>
 					<div>
-						<div className="flex justify-self-center flex-col justify-center w-[450px] border-2 rounded-lg mt-2">
+						<div className="flex justify-self-center flex-col justify-center w-[450px] border-2 rounded-lg mt-2 bg-white">
 							<p className="text-center mt-2">
 								Who is this pokemon?
 							</p>
@@ -129,7 +130,7 @@ export const SilouetteGame = () => {
 								This pokémon is shiny
 							</p>
 							<div className="flex justify-center w-full h-full my-5">
-								<div className="flex justify-center w-[400px] h-[400px] overflow-hidden border-2">
+								<div className="flex justify-center w-[400px] h-[400px] overflow-hidden border-2 bg-grid">
 									<img
 										src={dailyPokemon.sprites?.front_shiny}
 										className="w-full h-full"
