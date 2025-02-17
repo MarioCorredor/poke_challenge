@@ -20,7 +20,7 @@ export const PokemonProvider = ({ children }) => {
 				const responses = await Promise.all(
 					gameIds.map((id) =>
 						fetch(
-							`https://poke-backend-tvv2.onrender.com/pokemons/daily/${id}/latest`
+							`https://poke-backend-p5w5.onrender.com/pokemons/daily/${id}/latest`
 						).then((res) => res.json())
 					)
 				);
@@ -38,7 +38,7 @@ export const PokemonProvider = ({ children }) => {
 				const responses = await Promise.all(
 					gameIds.map((id) =>
 						fetch(
-							`https://poke-backend-tvv2.onrender.com/pokemons/daily/${id}/yesterday`
+							`https://poke-backend-p5w5.onrender.com/pokemons/daily/${id}/yesterday`
 						).then((res) => res.json())
 					)
 				);
