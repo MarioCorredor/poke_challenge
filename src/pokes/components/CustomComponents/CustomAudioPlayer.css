@@ -14,17 +14,6 @@
 		padding: 8px 15px;
 		cursor: pointer;
 		border-radius: 5px;
-		font-size: 14px;
 	}
 
-	.volume-control {
-		display: flex;
-		align-items: center;
-		gap: 5px;
-		color: white;
-
-		input {
-			width: 80px;
-		}
-	}
 }

@@ -8,11 +8,9 @@ export const CustomAudioPlayer = ({ src }) => {
 
 	const togglePlay = () => {
 		if (isPlaying) {
-			// Si estaba reproduciendo, se pausa y se reinicia a 0
 			audioRef.current.pause();
-			audioRef.current.currentTime = 0; // Reinicia el audio
+			audioRef.current.currentTime = 0;
 		} else {
-			// Si estaba pausado, empieza desde el principio
 			audioRef.current.currentTime = 0;
 			audioRef.current.play();
 		}
@@ -26,13 +24,14 @@ export const CustomAudioPlayer = ({ src }) => {
 	};
 
 	const handleAudioEnded = () => {
-		setIsPlaying(false); // Volver a mostrar el botón de Play cuando termine el audio
+		setIsPlaying(false);
 	};
 
 	return (
 		<div className="audio-player">
 			<audio ref={audioRef} src={src} onEnded={handleAudioEnded} />
 			<input
+				className="slider-volume"
 				type="range"
 				min="0"
 				max="1"
@@ -41,10 +40,14 @@ export const CustomAudioPlayer = ({ src }) => {
 				onChange={handleVolumeChange}
 			/>
 			<div className="volume-control">
-				<button className="play-btn" onClick={togglePlay}>
-					{isPlaying ? "⏸️" : "▶️"}
-				</button>
 				🔊
+				<button className="play-btn" onClick={togglePlay}>
+					{isPlaying ? (
+						<img src="/src/assets/stop_button.png" height="64" width="64" />
+					) : (
+						<img src="/src/assets/play_button.png" height="64" width="64"/>
+					)}
+				</button>
 			</div>
 		</div>
 	);

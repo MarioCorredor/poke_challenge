@@ -5,7 +5,7 @@ import "./PokemonTable.css";
 export const PokemonTable = ({ pokemons = [] }) => {
 	return (
 		<>
-			<div className="background-grid h-[330px] overflow-auto border-2">
+			<div className="background-grid h-[330px] overflow-auto border-2 custom-scrollbar">
 				{pokemons.length > 0 ? (
 					<table className="table-fixed border-collapse w-full capitalize text-white">
 						<thead>

@@ -13,7 +13,7 @@ table {
 	background: url("../../../assets/bg_grid_green.png");
 }
 
-.col-header{
+.col-header {
 	position: relative;
 	display: flex;
 	justify-content: center;
@@ -31,9 +31,23 @@ table {
 	background-size: contain;
 	background-position: center;
 	background-repeat: no-repeat;
-	z-index: 1; /* Envía el contorno detrás del contenido */
+	z-index: 1;
 }
 
 .text-shadow {
 	text-shadow: 1px 1px #000000;
 }
+
+.custom-scrollbar::-webkit-scrollbar {
+	width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+	background: #313131;
+	border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+	background: none;
+}
+
