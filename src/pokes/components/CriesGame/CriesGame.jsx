@@ -63,6 +63,9 @@ export const CriesGame = () => {
 					<CustomAudioPlayer src={dailyPokemon.cries?.latest} />
 				</div>
 			</div>
+			<div className="flex w-full mb-5">
+				
+			</div>
 			{!isCriesPokemonGuessed && (
 				<div className="flex justify-self-center">
 					<SearchBar

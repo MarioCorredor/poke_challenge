@@ -62,7 +62,7 @@ export const SearchBar = ({ onSelectPokemon, selectedPokemons = [] }) => {
 
     return (
         <div className="search-container">
-            <div className="flex items-center border rounded-md p-2 bg-white">
+            <div className="flex items-center border-2 border-white rounded-full py-2 px-4 input-container">
                 <input
                     type="text"
                     placeholder="Search Pokémon..."
@@ -73,10 +73,10 @@ export const SearchBar = ({ onSelectPokemon, selectedPokemons = [] }) => {
                     }}
                     onFocus={() => search.length >= 2}
                     onKeyDown={handleKeyDown}
-                    className="flex-1 p-2 outline-none w-full text-sm"
+                    className="flex-1 p-2 outline-none w-full text-sm text-white"
                 />
                 <button onClick={() => handleSelectPokemon()}>
-                    <SendHorizontal className="w-6 h-6 cursor-pointer text-gray-600 hover:text-black" />
+                    <img className="w-6 h-6 cursor-pointer" src="src/assets/enter.svg" />
                 </button>
             </div>
 

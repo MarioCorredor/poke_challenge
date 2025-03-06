@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./CustomAudioPlayer.css";
 
 export const CustomAudioPlayer = ({ src }) => {
@@ -21,31 +21,56 @@ export const CustomAudioPlayer = ({ src }) => {
 		const newVolume = e.target.value;
 		setVolume(newVolume);
 		audioRef.current.volume = newVolume;
+	
+		// Establece la variable CSS para el progreso
+		e.target.style.setProperty("--progress", `${newVolume * 100}%`);
 	};
+
+	useEffect(() => {
+		const slider = document.querySelector(".slider-volume");
+		if (slider) {
+			slider.style.setProperty("--progress", `${volume * 100}%`);
+		}
+	}, []);
 
 	const handleAudioEnded = () => {
 		setIsPlaying(false);
 	};
 
+	
+
 	return (
-		<div className="audio-player">
+		<div className="audio-player !rounded-full py-4 border-2">
 			<audio ref={audioRef} src={src} onEnded={handleAudioEnded} />
-			<input
-				className="slider-volume"
-				type="range"
-				min="0"
-				max="1"
-				step="0.01"
-				value={volume}
-				onChange={handleVolumeChange}
-			/>
-			<div className="volume-control">
-				🔊
+			<div className="border-black border-1 !rounded-full">
+				<div></div>
+				<div className="flex border-white border-3 !rounded-full p-2 items-center gap-2">
+					<img src="/src/assets/volume.svg" alt="volume" height="28" width="28" />
+					<input
+						className="slider-volume !rounded-full pr-1"
+						type="range"
+						min="0"
+						max="1"
+						step="0.01"
+						value={volume}
+						onChange={handleVolumeChange}
+					/>
+				</div>
+			</div>
+			<div className="volume-control flex justify-center items-center">
 				<button className="play-btn" onClick={togglePlay}>
 					{isPlaying ? (
-						<img src="/src/assets/stop_button.png" height="64" width="64" />
+						<img
+							src="/src/assets/stop_button.png"
+							height="32"
+							width="32"
+						/>
 					) : (
-						<img src="/src/assets/play_button.png" height="64" width="64"/>
+						<img
+							src="/src/assets/play_button.png"
+							height="32"
+							width="32"
+						/>
 					)}
 				</button>
 			</div>

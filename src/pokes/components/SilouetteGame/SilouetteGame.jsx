@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { usePokemon } from "../../../contexts";
 import { PokemonListCard, SearchBar } from "..";
 import { decryptData, encryptData, getPokemon } from "../../../helpers";
-import "./SilouetteGame.css"
+import "./SilouetteGame.css";
 
 export const SilouetteGame = () => {
 	const {
@@ -138,6 +138,8 @@ export const SilouetteGame = () => {
 											filter: `blur(${blurIntensity}px)`,
 											transform: `scale(${zoomLevel})`,
 											transformOrigin: transformOrigin,
+											userSelect: "none",
+											pointerEvents: "none",
 										}}
 									/>
 								</div>

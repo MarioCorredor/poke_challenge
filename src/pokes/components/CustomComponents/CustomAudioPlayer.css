@@ -6,14 +6,62 @@
 	padding: 10px;
 	border-radius: 10px;
 	width: fit-content;
+	border-color: #ffffff30;
 
 	.play-btn {
-		background: #444;
-		color: white;
+		background: none;
 		border: none;
-		padding: 8px 15px;
 		cursor: pointer;
-		border-radius: 5px;
 	}
 
+	.slider-volume {
+		appearance: none;
+		-webkit-appearance: none;
+		height: 3px;
+		border-radius: 30px;
+		background: none; 
+		position: relative;
+	}
+
+	/* Barra de progreso en WebKit (Chrome, Edge, Safari) */
+	.slider-volume::-webkit-slider-runnable-track {
+		height: 3px;
+		background: linear-gradient(to right, white var(--progress), #ffffff50 var(--progress));
+		border-radius: 30px;
+	}
+
+	/* Thumb separado y visible */
+	.slider-volume::-webkit-slider-thumb {
+		-webkit-appearance: none;
+		appearance: none;
+		cursor: pointer;
+		width: 12px;
+		height: 12px;
+		background: white;
+		border-radius: 50%;
+		margin-top: -4px; /* Centrar con la barra */
+		position: relative;
+	}
+
+	/* Progreso (llena la barra hasta el thumb) */
+	.slider-volume::-moz-range-progress {
+		background: white;
+		height: 3px;
+		border-radius: 30px;
+	}
+
+	/* Para Firefox */
+	.slider-volume::-moz-range-track {
+		height: 3px;
+		background: #ffffff50;
+		border-radius: 30px;
+	}
+
+	.slider-volume::-moz-range-thumb {
+		cursor: pointer;
+		width: 14px;
+		height: 14px;
+		background: white;
+		border-radius: 50%;
+	}
 }
