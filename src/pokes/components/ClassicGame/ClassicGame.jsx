@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { getPokemon, getCountdown, decryptData, encryptData } from "../../../helpers";
+import {
+	getPokemon,
+	getCountdown,
+	decryptData,
+	encryptData,
+} from "../../../helpers";
 import { PokemonTable, SearchBar } from "..";
 import { usePokemon } from "../../../contexts";
 import { NextGameCard } from "../elements";
@@ -148,7 +153,9 @@ export const ClassicGame = () => {
 									<div className="border-2 pb-2 pt-4 px-2 rounded-b-sm middle-container">
 										<div className="border-1 inner-container p-4 flex gap-8">
 											<div className="w-1/2 flex flex-col p-3 border-3 border-[#2C6344] rounded-tr-3xl rounded-br-3xl rounded-tl-lg rounded-bl-lg  bg-[#5ECD8E] animate__animated animate__tada inner-border">
-												<p className="mb-2 text-white text-shadow">Gotcha!</p>
+												<p className="mb-2 text-white text-shadow">
+													Gotcha!
+												</p>
 												<div className="flex gap-6">
 													<div className="border-4 border-[#333333] rounded-2xl bg-grid-white">
 														<img
@@ -166,17 +173,27 @@ export const ClassicGame = () => {
 															{dailyPokemon.name}
 														</p>
 														<p className="capitalize pb-1 text-[#333333]">
-															#{dailyPokemon.speciesId}
+															#
+															{
+																dailyPokemon.speciesId
+															}
 														</p>
 														<p className="text-[#42855F] pb-4 text-shadow">
 															Attempts:{" "}
 															{pokemons.length}
 														</p>
 														<p className="text-gray-500 pb-2 !text-[10px] text-shadow">
-															Yesterday pokémon was:
+															Yesterday pokémon
+															was:
 														</p>
 														<p className="capitalize text-gray-500 text-shadow">
-															{yesterdayPokemon.name} #{yesterdayPokemon.speciesId}
+															{
+																yesterdayPokemon.name
+															}{" "}
+															#
+															{
+																yesterdayPokemon.speciesId
+															}
 														</p>
 													</div>
 												</div>

@@ -8,7 +8,7 @@ export const HomePage = () => {
 	const handleClickClassic = () => {
 		navigate("/classic"); // Redirige a la ruta deseada
 	};
-	const handleClickCries= () => {
+	const handleClickCries = () => {
 		navigate("/cries"); // Redirige a la ruta deseada
 	};
 	const handleClickSilouette = () => {
@@ -18,19 +18,22 @@ export const HomePage = () => {
 	return (
 		<>
 			<div className="flex justify-center flex-col">
-				<p className="text-center mb-2">Guess the daily pokémon!</p>
 				<div className="flex flex-col justify-center gap-3 select-none">
 					<div className="flex justify-center">
-						<div onClick={handleClickClassic} className="bg-white menu-item flex border-2 rounded-tl-2xl rounded-br-2xl rounded-tr rounded-bl p-3 flex-col w-[325px] h-[125px] cursor-pointer">
-							<h3 className="pt-1">Classic Mode</h3>
-							<div className="flex items-center pt-2">
-								<div className="flex justify-center items-center overflow-hidden w-[60px] h-[60px]">
-									<img
-										className="max-w-[76px] max-h-[76px]"
-										src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/201-question.png"
-									/>
-								</div>
-								<p className="!text-[10px] ps-3">
+						<div
+							onClick={handleClickClassic}
+							className="bg-white menu-item flex border-3 border-white rounded-[20px] p-5 w-[325px] h-[125px] cursor-pointer justify-center">
+							<div className="flex justify-center items-center">
+								<img
+									className="max-w-[64px] max-h-[64px]"
+									src="/src/assets/pokedex.png"
+								/>
+							</div>
+							<div className="flex ps-5 flex-col">
+								<h3 className="font-title text-[#FF606C] !text-[28px]">
+									Classic Mode
+								</h3>
+								<p className="!text-[8px] text-white">
 									Guess the pokémon with some of its
 									attributes!
 								</p>
@@ -38,32 +41,40 @@ export const HomePage = () => {
 						</div>
 					</div>
 					<div className="flex justify-center">
-						<div onClick={handleClickCries} className="bg-white menu-item flex border-2 rounded-tl-2xl rounded-br-2xl rounded-tr rounded-bl p-3 flex-col w-[325px] h-[125px] cursor-pointer">
-							<h3 className="pt-1">Cries Mode</h3>
-							<div className="flex items-center pt-2">
-								<div className="flex justify-center items-center overflow-hidden w-[60px] h-[60px]">
-									<img
-										className="max-w-[76px] max-h-[76px]"
-										src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/441.png"
-									/>
-								</div>
-								<p className="!text-[10px] ps-3">
+						<div
+							onClick={handleClickCries}
+							className="bg-white menu-item flex border-3 border-white rounded-[20px] p-5 w-[325px] h-[125px] cursor-pointer justify-center">
+							<div className="flex justify-center items-center">
+								<img
+									className="max-w-[64px] max-h-[64px]"
+									src="/src/assets/chatot.png"
+								/>
+							</div>
+							<div className="flex ps-5 flex-col">
+								<h3 className="font-title text-[#36BBFC] !text-[28px]">
+									Cries Mode
+								</h3>
+								<p className="!text-[8px] text-white">
 									Guess the pokémon by hearing its cry!
 								</p>
 							</div>
 						</div>
 					</div>
 					<div className="flex justify-center">
-						<div onClick={handleClickSilouette} className="bg-white menu-item flex border-2 rounded-tl-2xl rounded-br-2xl rounded-tr rounded-bl p-3 flex-col w-[325px] h-[125px] cursor-pointer">
-							<h3 className="pt-1">Silhouette Mode</h3>
-							<div className="flex items-center pt-2">
-								<div className="flex justify-center items-center overflow-hidden w-[60px] h-[60px]">
-									<img
-										className="max-w-[76px] max-h-[76px] brightness-0"
-										src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/201-question.png"
-									/>
-								</div>
-								<p className="!text-[10px] ps-3">
+						<div
+							onClick={handleClickSilouette}
+							className="bg-white menu-item flex border-3 border-white rounded-[20px] p-5 w-[325px] h-[125px] cursor-pointer justify-center">
+							<div className="flex justify-center items-center">
+								<img
+									className="max-w-[64px] max-h-[64px]"
+									src="/src/assets/ditto.png"
+								/>
+							</div>
+							<div className="flex ps-5 flex-col">
+								<h3 className="font-title text-[#C991E4] !text-[28px]">
+									Silhouette Mode								
+								</h3>
+								<p className="!text-[8px] text-white">
 									Guess the pokémon by its silhouette!
 								</p>
 							</div>

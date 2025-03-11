@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { CustomAudioPlayer } from "../CustomComponents";
 import { usePokemon } from "../../../contexts";
-import { SearchBar, PokemonListCard } from "../elements";
+import { SearchBar, PokemonListCard, HintsCard } from "../elements";
 import { decryptData, encryptData, getPokemon } from "../../../helpers";
 
 export const CriesGame = () => {
-	const { dailyPokemons, isCriesPokemonGuessed, setIsCriesPokemonGuessed } = usePokemon();
+	const { dailyPokemons, isCriesPokemonGuessed, setIsCriesPokemonGuessed } =
+		usePokemon();
 	const [dailyPokemon, setDailyPokemon] = useState({});
 
 	const [pokemons, setPokemons] = useState(
-			JSON.parse(localStorage.getItem("criesPokemons")) || []
-		);
+		JSON.parse(localStorage.getItem("criesPokemons")) || []
+	);
 
 	useEffect(() => {
 		const storedDailyPokemon = decryptData(
@@ -63,8 +64,8 @@ export const CriesGame = () => {
 					<CustomAudioPlayer src={dailyPokemon.cries?.latest} />
 				</div>
 			</div>
-			<div className="flex w-full mb-5">
-				
+			<div className="flex justify-center w-full mb-5">
+				<HintsCard />
 			</div>
 			{!isCriesPokemonGuessed && (
 				<div className="flex justify-self-center">
