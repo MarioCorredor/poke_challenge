@@ -13,6 +13,11 @@ export const CriesGame = () => {
 		JSON.parse(localStorage.getItem("criesPokemons")) || []
 	);
 
+	const [attempts, setAttempts] = useState(() => {
+		const savedAttempts = localStorage.getItem("attempts");
+		return savedAttempts ? JSON.parse(savedAttempts) : 0;
+	});
+
 	useEffect(() => {
 		const storedDailyPokemon = decryptData(
 			localStorage.getItem("dailyCriesPokemon")
@@ -31,12 +36,19 @@ export const CriesGame = () => {
 				);
 				localStorage.removeItem("criesPokemons");
 				setPokemons([]);
+				setAttempts(0); // Reset attempts for new dailyPokemon
+				localStorage.setItem("attempts", JSON.stringify(0));
 			}
 
 			setDailyPokemon(newDailyPokemon);
 			setIsCriesPokemonGuessed(false);
 		}
 	}, [dailyPokemons]);
+
+	useEffect(() => {
+		// Save attempts to localStorage whenever it changes
+		localStorage.setItem("attempts", JSON.stringify(attempts));
+	}, [attempts]);
 
 	const saveToLocalStorage = (newPokemons) => {
 		localStorage.setItem("criesPokemons", JSON.stringify(newPokemons));
@@ -54,6 +66,7 @@ export const CriesGame = () => {
 
 			setPokemons(newPokemons);
 			saveToLocalStorage(newPokemons);
+			setAttempts((prevAttempts) => prevAttempts + 1); // Increment attempts
 		}
 	};
 
@@ -65,7 +78,7 @@ export const CriesGame = () => {
 				</div>
 			</div>
 			<div className="flex justify-center w-full mb-5">
-				<HintsCard />
+				<HintsCard attempts={attempts} dailyPokemon={dailyPokemon}/>
 			</div>
 			{!isCriesPokemonGuessed && (
 				<div className="flex justify-self-center">
