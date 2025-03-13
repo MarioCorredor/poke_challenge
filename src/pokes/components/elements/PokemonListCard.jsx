@@ -44,11 +44,11 @@ export const PokemonListCard = ({ pokemon, dailyPokemon }) => {
 			(result) => result === true
 		);
 
-		if ( dailyPokemon.name === dailyPokemons[1].name && namesMatch) {
+		if (dailyPokemon.name === dailyPokemons[1].name && namesMatch) {
 			setIsCriesPokemonGuessed(true);
 		}
 
-		if ( dailyPokemon.name === dailyPokemons[2].name && namesMatch) {
+		if (dailyPokemon.name === dailyPokemons[2].name && namesMatch) {
 			setIsSilouettePokemonGuessed(true);
 		}
 	}, [pokemon, dailyPokemon, comparisonResults]);
@@ -61,7 +61,16 @@ export const PokemonListCard = ({ pokemon, dailyPokemon }) => {
 						className={`flex flex-row items-center border-4 rounded-tl-3xl rounded-br-3xl rounded-tr-xl rounded-bl-xl w-[300px] animate__animated inner-border ${getCardAnimation(
 							comparisonResults
 						)} ${getBgColor("name", comparisonResults)}`}>
-						<img width="86" height="86" src={front_default} />
+						{front_default ? (
+							<div className="flex justify-center items-center max-w-[86px]">
+								<img src={front_default} />
+							</div>
+						) : (
+							<div className="flex justify-center items-center max-w-[64px] p-2">
+								<img src="/pokeball.png" />
+							</div>
+						)}
+
 						<div className="flex justify-start w-full">
 							<p className="capitalize">{name}</p>
 						</div>

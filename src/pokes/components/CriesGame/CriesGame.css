@@ -1,0 +1,10 @@
+.pokemon-name {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-size: 1rem !important;
+}
+
+.pokemon-name.long {
+	font-size: 0.6rem !important;
+}

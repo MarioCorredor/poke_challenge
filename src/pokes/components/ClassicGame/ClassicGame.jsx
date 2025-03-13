@@ -157,15 +157,16 @@ export const ClassicGame = () => {
 													Gotcha!
 												</p>
 												<div className="flex gap-6">
-													<div className="border-4 border-[#333333] rounded-2xl bg-grid-white">
+													<div className="border-4 border-[#333333] rounded-2xl bg-grid-white flex justify-center items-center p-2">
 														<img
 															src={
 																dailyPokemon
 																	.sprites
-																	.front_default
+																	?.front_default ||
+																"/pokeball.png"
 															}
-															height="128"
-															width="128"
+															height="96"
+															width="96"
 														/>
 													</div>
 													<div className="flex flex-col">

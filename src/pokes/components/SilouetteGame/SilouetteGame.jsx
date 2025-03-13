@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { usePokemon } from "../../../contexts";
-import { PokemonListCard, SearchBar } from "..";
-import { decryptData, encryptData, getPokemon } from "../../../helpers";
+import { NextGameCard, PokemonListCard, SearchBar } from "..";
+import { decryptData, encryptData, getCountdown, getPokemon } from "../../../helpers";
 import "./SilouetteGame.css";
 
 export const SilouetteGame = () => {
 	const {
 		dailyPokemons,
+		yesterdayPokemons,
 		isSilouettePokemonGuessed,
 		setIsSilouettePokemonGuessed,
 	} = usePokemon();
 	const [dailyPokemon, setDailyPokemon] = useState({});
+	const [yesterdayPokemon, setYesterdayPokemon] = useState({});
+
+	const [timeLeft, setTimeLeft] = useState("");
 	const [pokemons, setPokemons] = useState(
 		JSON.parse(localStorage.getItem("silouettePokemons")) || []
 	);
@@ -78,6 +82,28 @@ export const SilouetteGame = () => {
 		}
 	}, [dailyPokemons]);
 
+	useEffect(() => {
+		const storedYesterdayPokemon = decryptData(
+			localStorage.getItem("yesterdaySilouettePokemon")
+		);
+
+		if (yesterdayPokemons.length > 0) {
+			const yesterdayDailyPokemon = yesterdayPokemons[2];
+
+			if (
+				!storedYesterdayPokemon ||
+				storedYesterdayPokemon.id !== yesterdayDailyPokemon.id
+			) {
+				localStorage.setItem(
+					"yesterdaySilouettePokemon",
+					encryptData(yesterdayDailyPokemon)
+				);
+			}
+
+			setYesterdayPokemon(yesterdayDailyPokemon);
+		}
+	}, [yesterdayPokemons]);
+
 	const handleSelectPokemon = async (name) => {
 		if (!name) return;
 
@@ -113,6 +139,11 @@ export const SilouetteGame = () => {
 		}
 	};
 
+	useEffect(() => {
+		const clearCountdown = getCountdown(setTimeLeft);
+		return () => clearCountdown();
+	}, []);
+
 	const saveToLocalStorage = (newPokemons) => {
 		localStorage.setItem("silouettePokemons", JSON.stringify(newPokemons));
 	};
@@ -122,7 +153,7 @@ export const SilouetteGame = () => {
 			{dailyPokemon !== null ? (
 				<>
 					<div>
-						<div className="flex justify-self-center flex-col justify-center w-[450px] border-2 rounded-lg mt-2 bg-white">
+						<div className="flex justify-self-center flex-col justify-center w-[450px] border-2 rounded-lg mt-2 bg-white mb-3">
 							<p className="text-center mt-2">
 								Who is this pokemon?
 							</p>
@@ -147,7 +178,7 @@ export const SilouetteGame = () => {
 						</div>
 					</div>
 					{!isSilouettePokemonGuessed && (
-						<div className="flex justify-self-center mt-5">
+						<div className="flex justify-self-center mt-2 mb-3">
 							<SearchBar
 								onSelectPokemon={handleSelectPokemon}
 								selectedPokemons={pokemons.map((p) => p.name)}
@@ -161,7 +192,7 @@ export const SilouetteGame = () => {
 							{pokemons
 								.map((pokemon) => (
 									<div
-										className="flex justify-center mt-3"
+										className="flex justify-center mb-3"
 										key={pokemon.id}>
 										<PokemonListCard
 											pokemon={pokemon}
@@ -183,6 +214,66 @@ export const SilouetteGame = () => {
 					/>
 				</div>
 			)}
+			{isSilouettePokemonGuessed &&
+				Object.keys(dailyPokemon).length > 0 && (
+					<div className="border-1 inner-container p-4 flex gap-8 max-w-[950px] justify-self-center">
+						<div className="w-1/2 flex flex-col p-3 border-3 border-[#2C6344] rounded-tr-3xl rounded-br-3xl rounded-tl-lg rounded-bl-lg  bg-[#5ECD8E] animate__animated animate__tada inner-border">
+							<p className="mb-2 text-white text-shadow">
+								Gotcha!
+							</p>
+							<div className="flex gap-6">
+								<div className="border-4 border-[#333333] rounded-2xl bg-grid-white flex justify-center items-center p-2">
+									<img
+										src={
+											dailyPokemon.sprites
+												?.front_default ||
+											"/pokeball.png"
+										}
+										height="96"
+										width="96"
+									/>
+								</div>
+								<div className="flex flex-col">
+									<div className="flex flex-col">
+										<p
+											className={`capitalize text-[#333333] text-shadow pokemon-name ${
+												dailyPokemon.name.length > 10
+													? "long"
+													: ""
+											}`}>
+											{dailyPokemon.name}
+										</p>
+										<p className="capitalize pb-1 text-[#333333]">
+											#{dailyPokemon.speciesId}
+										</p>
+										<p className="text-[#42855F] pb-4 text-shadow">
+											Attempts: {pokemons.length}
+										</p>
+										<p className="text-gray-500 pb-2 !text-[10px] text-shadow">
+											Yesterday pokémon was:
+										</p>
+										<p className="capitalize text-gray-500 text-shadow">
+											{yesterdayPokemon.name} #
+											{yesterdayPokemon.speciesId}
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div className="w-1/2 text-white flex px-4 pt-4 flex-col text-shadow">
+							<p className="text-white !text-lg">
+								Next pokémon in:
+							</p>
+							<div className="my-2 flex gap-4">
+								<p className="!text-[16px]">{timeLeft}</p>
+								<p className="text-gray-400 !text-[8px] self-center pt-2">
+									Time zone: Europe (00:00 UTC+2)
+								</p>
+							</div>
+							<NextGameCard mode={0} />
+						</div>
+					</div>
+				)}
 		</>
 	);
 };

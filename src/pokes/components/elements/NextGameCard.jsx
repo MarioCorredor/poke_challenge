@@ -1,23 +1,23 @@
 import React from "react";
 import { useNavigate } from "react-router";
-import "./NextGameCard.css"
+import "./NextGameCard.css";
 
 export const NextGameCard = ({ mode }) => {
 	const modes = {
+		0: {
+			title: "Classic Mode",
+			image: "/src/assets/pokedex.png",
+			description: "Guess the pokémon with some of its attributes!",
+		},
 		1: {
 			title: "Cries Mode",
-			image: "/chatot-icon.svg",
+			image: "/src/assets/chatot.png",
 			description: "Guess the pokémon by hearing its cry!",
 		},
 		2: {
 			title: "Silhouette Mode",
-			image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/201-question.png",
+			image: "/src/assets/ditto.png",
 			description: "Guess the pokémon by its silhouette!",
-		},
-		3: {
-			title: "Classic Mode",
-			image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/201-question.png",
-			description: "Guess the pokémon with some of its attributes!",
 		},
 	};
 
@@ -57,9 +57,7 @@ export const NextGameCard = ({ mode }) => {
 			</div>
 			<div className="flex flex-col">
 				<p className="!text-[14px] font-bold">{title}</p>
-				<p className="!text-[8px] self-center mt-2">
-					{description}
-				</p>
+				<p className="!text-[8px] self-center mt-2">{description}</p>
 			</div>
 		</div>
 	);
