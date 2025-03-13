@@ -8,16 +8,19 @@ export const NextGameCard = ({ mode }) => {
 			title: "Classic Mode",
 			image: "/src/assets/pokedex.png",
 			description: "Guess the pokémon with some of its attributes!",
+			color: "#FF606C",
 		},
 		1: {
 			title: "Cries Mode",
 			image: "/src/assets/chatot.png",
 			description: "Guess the pokémon by hearing its cry!",
+			color: "#36BBFC",
 		},
 		2: {
 			title: "Silhouette Mode",
 			image: "/src/assets/ditto.png",
 			description: "Guess the pokémon by its silhouette!",
+			color: "#C991E4",
 		},
 	};
 
@@ -25,14 +28,14 @@ export const NextGameCard = ({ mode }) => {
 
 	const handleClick = () => {
 		switch (mode) {
+			case 0:
+				navigate("/classic");
+				break;
 			case 1:
 				navigate("/cries");
 				break;
 			case 2:
 				navigate("/silouette");
-				break;
-			case 3:
-				navigate("/classic");
 				break;
 			default:
 				navigate("/");
@@ -40,7 +43,7 @@ export const NextGameCard = ({ mode }) => {
 		}
 	};
 
-	const { title, image, description } = modes[mode] || {};
+	const { title, image, description, color } = modes[mode] || {};
 
 	return (
 		<div
@@ -56,7 +59,9 @@ export const NextGameCard = ({ mode }) => {
 				/>
 			</div>
 			<div className="flex flex-col">
-				<p className="!text-[14px] font-bold">{title}</p>
+				<p className="!text-[28px] font-bold title-text" style={{ color: color }}>
+					{title}
+				</p>
 				<p className="!text-[8px] self-center mt-2">{description}</p>
 			</div>
 		</div>

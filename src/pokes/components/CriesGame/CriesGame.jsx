@@ -151,7 +151,7 @@ export const CriesGame = () => {
 				</div>
 			)}
 			{isCriesPokemonGuessed && Object.keys(dailyPokemon).length > 0 && (
-				<div className="border-1 inner-container p-4 flex gap-8 max-w-[950px] justify-self-center">
+				<div className="border-4 border-gray-200 rounded-lg inner-container p-4 flex gap-8 max-w-[950px] justify-self-center">
 					<div className="w-1/2 flex flex-col p-3 border-3 border-[#2C6344] rounded-tr-3xl rounded-br-3xl rounded-tl-lg rounded-bl-lg  bg-[#5ECD8E] animate__animated animate__tada inner-border">
 						<p className="mb-2 text-white text-shadow">Gotcha!</p>
 						<div className="flex gap-6">

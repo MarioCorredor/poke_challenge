@@ -3,16 +3,16 @@ import "./HomePage.css";
 import { useNavigate } from "react-router";
 
 export const HomePage = () => {
-	const navigate = useNavigate(); // Obtén la función para redirigir
+	const navigate = useNavigate(); 
 
 	const handleClickClassic = () => {
-		navigate("/classic"); // Redirige a la ruta deseada
+		navigate("/classic"); 
 	};
 	const handleClickCries = () => {
-		navigate("/cries"); // Redirige a la ruta deseada
+		navigate("/cries");
 	};
 	const handleClickSilouette = () => {
-		navigate("/silouette"); // Redirige a la ruta deseada
+		navigate("/silouette");
 	};
 
 	return (

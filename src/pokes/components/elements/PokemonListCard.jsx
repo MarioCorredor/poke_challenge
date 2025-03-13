@@ -58,7 +58,7 @@ export const PokemonListCard = ({ pokemon, dailyPokemon }) => {
 			{comparisonResults != null ? (
 				<>
 					<div
-						className={`flex flex-row items-center border-4 rounded-tl-3xl rounded-br-3xl rounded-tr-xl rounded-bl-xl w-[300px] animate__animated inner-border ${getCardAnimation(
+						className={`flex flex-row items-center h-[80px] border-4 rounded-tl-3xl rounded-br-3xl rounded-tr-xl rounded-bl-xl w-[300px] animate__animated inner-border ${getCardAnimation(
 							comparisonResults
 						)} ${getBgColor("name", comparisonResults)}`}>
 						{front_default ? (

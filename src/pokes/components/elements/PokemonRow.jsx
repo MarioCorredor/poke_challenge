@@ -92,7 +92,6 @@ export const PokemonRow = ({ pokemon }) => {
 				generation: getGeneration(dailyPokemon.generation),
 			}
 		);
-		console.log(comparisonResult)
 		setComparisonResults(comparisonResult);
 	}, [dailyPokemon, pokemon]);
 

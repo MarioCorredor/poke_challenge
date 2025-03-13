@@ -1,9 +1,6 @@
 export const comparePokemonAttributes = (pokemon, dailyPokemon) => {
 	if (!dailyPokemon || !pokemon) return null;
 
-	console.log(pokemon)
-	console.log(dailyPokemon)
-
 	const compareNumeric = (a, b) =>
 		a > b ? "greater" : a < b ? "less" : "equal";
 
