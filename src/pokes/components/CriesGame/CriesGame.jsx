@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { CustomAudioPlayer } from "../CustomComponents";
 import { usePokemon } from "../../../contexts";
 import {
@@ -32,10 +32,7 @@ export const CriesGame = () => {
 		JSON.parse(localStorage.getItem("criesPokemons")) || []
 	);
 
-	const [attempts, setAttempts] = useState(() => {
-		const savedAttempts = localStorage.getItem("attempts");
-		return savedAttempts ? JSON.parse(savedAttempts) : 0;
-	});
+	const guessedRef = useRef(null);
 
 	useEffect(() => {
 		const clearCountdown = getCountdown(setTimeLeft);
@@ -82,8 +79,6 @@ export const CriesGame = () => {
 				);
 				localStorage.removeItem("criesPokemons");
 				setPokemons([]);
-				setAttempts(0); // Reset attempts for new dailyPokemon
-				localStorage.setItem("attempts", JSON.stringify(0));
 			}
 
 			setDailyPokemon(newDailyPokemon);
@@ -92,9 +87,10 @@ export const CriesGame = () => {
 	}, [dailyPokemons]);
 
 	useEffect(() => {
-		// Save attempts to localStorage whenever it changes
-		localStorage.setItem("attempts", JSON.stringify(attempts));
-	}, [attempts]);
+		if (isCriesPokemonGuessed && guessedRef.current) {
+			guessedRef.current.scrollIntoView({ behavior: "smooth" });
+		}
+	}, [isCriesPokemonGuessed]);
 
 	const saveToLocalStorage = (newPokemons) => {
 		localStorage.setItem("criesPokemons", JSON.stringify(newPokemons));
@@ -112,7 +108,6 @@ export const CriesGame = () => {
 
 			setPokemons(newPokemons);
 			saveToLocalStorage(newPokemons);
-			setAttempts((prevAttempts) => prevAttempts + 1); // Increment attempts
 		}
 	};
 
@@ -124,7 +119,7 @@ export const CriesGame = () => {
 				</div>
 			</div>
 			<div className="flex justify-center w-full mb-5">
-				<HintsCard attempts={attempts} dailyPokemon={dailyPokemon} />
+				<HintsCard attempts={pokemons.length} dailyPokemon={dailyPokemon} />
 			</div>
 			{!isCriesPokemonGuessed && (
 				<div className="flex justify-self-center mb-3">
@@ -151,7 +146,7 @@ export const CriesGame = () => {
 				</div>
 			)}
 			{isCriesPokemonGuessed && Object.keys(dailyPokemon).length > 0 && (
-				<div className="border-4 border-gray-200 rounded-lg inner-container p-4 flex gap-8 max-w-[950px] justify-self-center">
+				<div className="border-4 border-gray-200 rounded-lg inner-container p-4 flex gap-8 max-w-[950px] justify-self-center mb-3" ref={guessedRef}>
 					<div className="w-1/2 flex flex-col p-3 border-3 border-[#2C6344] rounded-tr-3xl rounded-br-3xl rounded-tl-lg rounded-bl-lg  bg-[#5ECD8E] animate__animated animate__tada inner-border">
 						<p className="mb-2 text-white text-shadow">Gotcha!</p>
 						<div className="flex gap-6">
@@ -184,9 +179,16 @@ export const CriesGame = () => {
 									<p className="text-gray-500 pb-2 !text-[10px] text-shadow">
 										Yesterday pokémon was:
 									</p>
+									<p
+										className={`capitalize text-[#333333] text-shadow pokemon-name ${
+											yesterdayPokemon.name.length > 5
+												? "long"
+												: ""
+										}`}>
+										{yesterdayPokemon.name}
+									</p>
 									<p className="capitalize text-gray-500 text-shadow">
-										{yesterdayPokemon.name} #
-										{yesterdayPokemon.speciesId}
+										#{yesterdayPokemon.speciesId}
 									</p>
 								</div>
 							</div>

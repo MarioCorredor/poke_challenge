@@ -1,23 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./HintsCard.css";
 
-export const HintsCard = ({ dailyPokemon = {} }) => {
-	const [attempts, setAttempts] = useState(() => {
-		const savedAttempts = localStorage.getItem("attempts");
-		return savedAttempts ? JSON.parse(savedAttempts) : 0;
-	});
+export const HintsCard = ({ attempts = 0, dailyPokemon = {} }) => {
+
 	const [selectedHint, setSelectedHint] = useState(null);
-
-	useEffect(() => {
-		// Save attempts to localStorage whenever it changes
-		localStorage.setItem("attempts", JSON.stringify(attempts));
-	}, [attempts]);
-
-	useEffect(() => {
-		// Reset attempts to 0 when dailyPokemon changes
-		setAttempts(0);
-		localStorage.setItem("attempts", JSON.stringify(0));
-	}, [dailyPokemon]);
 
 	const handleClick = (hintNumber) => {
 		if (

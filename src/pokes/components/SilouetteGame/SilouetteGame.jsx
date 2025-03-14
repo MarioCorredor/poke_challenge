@@ -1,7 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { usePokemon } from "../../../contexts";
 import { NextGameCard, PokemonListCard, SearchBar } from "..";
-import { decryptData, encryptData, getCountdown, getPokemon } from "../../../helpers";
+import {
+	decryptData,
+	encryptData,
+	getCountdown,
+	getPokemon,
+} from "../../../helpers";
 import "./SilouetteGame.css";
 
 export const SilouetteGame = () => {
@@ -18,6 +23,8 @@ export const SilouetteGame = () => {
 	const [pokemons, setPokemons] = useState(
 		JSON.parse(localStorage.getItem("silouettePokemons")) || []
 	);
+
+	const guessedRefCont = useRef(null);
 
 	const [blurIntensity, setBlurIntensity] = useState(5);
 	const [zoomLevel, setZoomLevel] = useState(3.9);
@@ -81,6 +88,12 @@ export const SilouetteGame = () => {
 			}
 		}
 	}, [dailyPokemons]);
+
+	useEffect(() => {
+		if (isSilouettePokemonGuessed && guessedRefCont.current) {
+			guessedRefCont.current.scrollIntoView({ behavior: "smooth" });
+		}
+	}, [isSilouettePokemonGuessed]);
 
 	useEffect(() => {
 		const storedYesterdayPokemon = decryptData(
@@ -216,7 +229,9 @@ export const SilouetteGame = () => {
 			)}
 			{isSilouettePokemonGuessed &&
 				Object.keys(dailyPokemon).length > 0 && (
-					<div className="border-4 border-gray-200 rounded-lg inner-container p-4 flex gap-8 max-w-[950px] justify-self-center mb-4">
+					<div
+						className="border-4 border-gray-200 rounded-lg inner-container p-4 flex gap-8 max-w-[950px] justify-self-center mb-4"
+						ref={guessedRefCont}>
 						<div className="w-1/2 flex flex-col p-3 border-3 border-[#2C6344] rounded-tr-3xl rounded-br-3xl rounded-tl-lg rounded-bl-lg  bg-[#5ECD8E] animate__animated animate__tada inner-border">
 							<p className="mb-2 text-white text-shadow">
 								Gotcha!
@@ -252,9 +267,17 @@ export const SilouetteGame = () => {
 										<p className="text-gray-500 pb-2 !text-[10px] text-shadow">
 											Yesterday pokémon was:
 										</p>
+										<p
+											className={`capitalize text-[#333333] text-shadow pokemon-name ${
+												yesterdayPokemon.name.length >
+												5
+													? "long"
+													: ""
+											}`}>
+											{yesterdayPokemon.name}
+										</p>
 										<p className="capitalize text-gray-500 text-shadow">
-											{yesterdayPokemon.name} #
-											{yesterdayPokemon.speciesId}
+											#{yesterdayPokemon.speciesId}
 										</p>
 									</div>
 								</div>
